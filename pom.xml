@@ -9,7 +9,6 @@
 	<modules>
 		<module>pos-core</module><!-- 核心+公共 -->
 		<module>pos-api</module><!-- 服务于APP的api -->
-		<module>pos-manage</module>
 	</modules>
 
 	<properties>

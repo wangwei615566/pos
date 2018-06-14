@@ -17,16 +17,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import com.rongdu.cashloan.core.common.context.Global;
 
-/**
- * ftp文件的上传与下载
- * 
- * @author ld
- * @version 1.0
- * @date 2016年6月13日 下午4:57:12 
- * Copyright 杭州融都科技股份有限公司 All Rights Reserved 
- * 官方网站：www.erongdu.com 
- * 未经授权不得进行修改、复制、出售及商业使用
- */
+
 
 public class SftpUtil {
 

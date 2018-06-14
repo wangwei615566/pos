@@ -14,17 +14,7 @@ import tool.util.BeanUtil;
 import tool.util.StringUtil;
 
 
-/**
- * 缓存帮助类
- * 
- * @author gc
- * @version 1.0.0
- * @date 2017年1月7日 上午10:40:22
- * Copyright 杭州融都科技股份有限公司 资产匹配系统 All Rights Reserved
- * 官方网站：www.erongdu.com
- * 
- * 未经授权不得进行修改、复制、出售及商业使用
- */
+
 public class CacheUtil {
 
     private static final Logger logger = Logger.getLogger(CacheUtil.class);

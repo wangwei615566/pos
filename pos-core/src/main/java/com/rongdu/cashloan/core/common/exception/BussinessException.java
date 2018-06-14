@@ -1,15 +1,6 @@
 package com.rongdu.cashloan.core.common.exception;
 
-/**
- * 自定义异常类
- * @author zlh
- * @version 1.0
- * @date 2016年11月3日 下午3:22:21
- * Copyright 杭州融都科技股份有限公司  All Rights Reserved
- * 官方网站：www.erongdu.com
- * 
- * 未经授权不得进行修改、复制、出售及商业使用
- */
+
 public class BussinessException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

@@ -17,15 +17,7 @@ import org.apache.log4j.Logger;
 import com.alibaba.fastjson.JSONObject;
 import com.rongdu.cashloan.core.common.exception.BaseRuntimeException;
 
-/**
- * 工具类-反射帮助类
- * 
- * @author yinLiang
- * @version 1.0
- * @date 2015年11月17日 下午5:39:54 Copyright 杭州融都科技股份有限公司  All Rights
- *       Reserved 官方网站：www.erongdu.com 
- *       未经授权不得进行修改、复制、出售及商业使用
- */
+
 public class ReflectUtil {
 
 	private static final Logger logger = Logger.getLogger(ReflectUtil.class);

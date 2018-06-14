@@ -2,16 +2,7 @@ package com.rongdu.cashloan.core.model;
 
 import com.rongdu.cashloan.core.domain.Borrow;
 
-/**
- * 借款进度状态model
- * @author jdd
- * @version 1.0.0
- * @date 2016年1月12日 下午2:35:42
- * Copyright 杭州融都科技股份有限公司 ARC  All Rights Reserved
- * 官方网站：www.erongdu.com
- * 
- * 未经授权不得进行修改、复制、出售及商业使用
- */
+
 public class BorrowModel extends Borrow {
 
 	private static final long serialVersionUID = 1L;

@@ -5,17 +5,7 @@ import java.util.Date;
 
 import tool.util.DateUtil;
 
-/**
- * 访问码实体
- * 
- * @author dufy
- * @version 1.0.0
- * @date 2017-03-24 17:37:49
- * Copyright 杭州融都科技股份有限公司  arc All Rights Reserved
- * 官方网站：www.erongdu.com
- * 
- * 未经授权不得进行修改、复制、出售及商业使用
- */
+
  public class SysAccessCode implements Serializable {
 
     private static final long serialVersionUID = 1L;

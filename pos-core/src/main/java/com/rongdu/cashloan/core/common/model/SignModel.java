@@ -3,15 +3,7 @@ package com.rongdu.cashloan.core.common.model;
 import org.apache.log4j.Logger;
 
 
-/** 
- * @author lid
- * @version 1.0
- * @date 2016年12月13日 下午2:18:28
- * Copyright 杭州融都科技股份有限公司 资产匹配系统 All Rights Reserved
- * 官方网站：www.erongdu.com
- * 
- * 未经授权不得进行修改、复制、出售及商业使用
- */
+
 public class SignModel {
 	
 	private static final Logger logger = Logger.getLogger(SignModel.class);
