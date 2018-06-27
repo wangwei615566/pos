@@ -23,5 +23,6 @@ public class TestController {
 		result.put(Constant.RESPONSE_DATA, "");
 		result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
 		ServletUtils.writeToResponse(response, result);
+
 	}
 }
