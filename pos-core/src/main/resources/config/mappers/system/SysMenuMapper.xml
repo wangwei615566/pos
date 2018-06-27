@@ -71,7 +71,7 @@
 		<selectKey resultType="long" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS ID
 		</selectKey>
-		insert into arc_sys_menu(
+		insert into sys_menu(
 		id,
 		name,
 		parent_id,
@@ -113,7 +113,7 @@
 		<selectKey resultType="long" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
-		insert into arc_sys_menu(
+		insert into sys_menu(
 		name,
 		parent_id,
 		icon_cls,
@@ -141,7 +141,7 @@
 	
 	<update id="update" parameterType="com.rongdu.cashloan.system.domain.SysMenu">
 		update
-		arc_sys_menu
+		sys_menu
 		set
 		NAME=#{text},
 		parent_id=#{parentId},
@@ -163,7 +163,7 @@
 	</update>
 
 	<update id="updateMenu" parameterType="java.util.Map">
-		update arc_sys_menu
+		update sys_menu
 		<trim prefix="SET" suffixOverrides=",">
 			update_time= NOW(),
 			<if test="text!=null">
@@ -233,7 +233,7 @@
 		level,
 		controller_name
 		from
-		arc_sys_menu
+		sys_menu
 		where
 		is_delete = 0 and id = #{id}
 	</select>
@@ -259,8 +259,8 @@
 		s.level,
 		s.controller_name	controllerName
 		from
-		arc_sys_menu s
-		join arc_sys_menu sm on sm.id = s.parent_id
+		sys_menu s
+		join sys_menu sm on sm.id = s.parent_id
 		where
 		s.is_delete = 0 and s.id = #{id}
 	</select>
@@ -285,7 +285,7 @@
 		level,
 		controller_name
 		from
-		arc_sys_menu
+		sys_menu
 		where
 		is_delete = 0
 		<if test="name!=null and name!='' ">
@@ -311,7 +311,7 @@
         p1.href,
         p2.role_id
         from
-        arc_sys_menu p1 , arc_sys_role_menu
+        sys_menu p1 , sys_role_menu
         p2
         where
         p1.id = p2.menu_id and p1.is_delete = 0
@@ -332,15 +332,15 @@
         SELECT DISTINCT
 		    rm.menu_id
 		FROM
-		    arc_sys_role_menu rm
-		JOIN arc_sys_menu menu ON menu.id = rm.menu_id
+		    sys_role_menu rm
+		JOIN sys_menu menu ON menu.id = rm.menu_id
 		WHERE
 		    rm.role_id IN ( #{0} )
 		AND NOT EXISTS (
 		    SELECT
 		        1
 		    FROM
-		        arc_sys_menu
+		        sys_menu
 		    WHERE
 		        parent_id = rm.menu_id
 		)
@@ -351,7 +351,7 @@
         SELECT DISTINCT
 		    parent_id id
 		FROM
-		    arc_sys_menu
+		    sys_menu
 		WHERE
 		    id IN 
         <foreach item="item" index="index" collection="menuLeafIds"
@@ -372,7 +372,7 @@
 		    sort,
 		    controller_name 
 		FROM
-		    arc_sys_menu
+		    sys_menu
 		WHERE
 		    is_delete = 0
 		
@@ -394,8 +394,8 @@
 		    menu.id,
 		    menu.parent_id
 		FROM
-		    arc_sys_menu menu
-		LEFT JOIN arc_sys_role_menu rm ON rm.menu_id = menu.id
+		    sys_menu menu
+		LEFT JOIN sys_role_menu rm ON rm.menu_id = menu.id
 		AND role_id = #{roleId}
 		WHERE
 		    menu.is_delete = 0
@@ -415,7 +415,7 @@
 	    is_delete,
 	    is_menu
 	FROM
-	    arc_sys_menu
+	    sys_menu
 	WHERE
 	    is_delete = 0
 	ORDER BY

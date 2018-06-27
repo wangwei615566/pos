@@ -25,7 +25,7 @@
 		<selectKey resultType="long" keyProperty="id">
 			SELECT LAST_INSERT_ID() AS ID
 		</selectKey>
-		insert into arc_sys_user_role(
+		insert into sys_user_role(
 			role_id,
 			user_id				
 		)
@@ -36,14 +36,14 @@
 	</insert>
 	
 	<delete id="deleteByUserId" parameterType="long">
-		delete from arc_sys_user_role
+		delete from sys_user_role
 		where
 		user_id  = #{userId}
  	</delete> 
 	
     <select id="getItemListByMap"	parameterType="java.util.HashMap" resultMap="sysUserRoleResult">
 		select * 
-		from  arc_sys_user_role
+		from  sys_user_role
 		where 1=1
 		<if test="roleId != null">
 		    AND role_id = #{roleId}
@@ -57,13 +57,13 @@
 	</select>
 	<select id="roleNameMap" parameterType="java.util.HashMap" resultType="String">
 		select r.nid
-		from arc_sys_user_role ur 
-		join arc_sys_user u on ur.user_id=u.id
-		join arc_sys_role r on ur.role_id=r.id
+		from sys_user_role ur 
+		join sys_user u on ur.user_id=u.id
+		join sys_role r on ur.role_id=r.id
 		<include refid="userSearchBy"/>
 	</select>
 	<!-- <update id="update" parameterClass="com.rongdu.arc.modules.manage.system.domain.SysUserRole">
-		update arc_sys_user_role
+		update sys_user_role
 		set
 			role_id=#roleId#,
 			user_id=#userId#				
@@ -76,7 +76,7 @@
 			id,
 			role_id,
 			user_id				
-		from arc_sys_user_role
+		from sys_user_role
 		where 
 			id = #id#
 	</select> -->
@@ -86,7 +86,7 @@
 			id,
 			role_id,
 			user_id				
-		from arc_sys_user_role
+		from sys_user_role
 		where
 		<iterate open="(" close=")" conjunction="," property="ids">
 			#id[]#
@@ -94,7 +94,7 @@
 	</select> -->
 	
  	<!-- <delete id="deleteByIds" parameterClass="java.util.Map">
-		delete from arc_sys_user_role
+		delete from sys_user_role
 		where
 		<iterate open="(" close=")" conjunction="," property="ids">
 			#id[]#
@@ -102,7 +102,7 @@
  	</delete> -->
  	
  	<!-- <delete id="deleteByUserId" parameterClass="long">
- 	  delete from arc_sys_user_role
+ 	  delete from sys_user_role
  	  where
  	  user_id = #userId#
  	</delete> -->
@@ -112,7 +112,7 @@
 			id,
 			role_id,
 			user_id		
-	    from arc_sys_user_role
+	    from sys_user_role
 	    <dynamic prepend="where">
 	    	<isNotEmpty prepend="and" property="id">
 			      id = #id#
@@ -131,7 +131,7 @@
 	<!-- <select id="getPageCount" resultClass="int" parameterClass="com.rongdu.arc.modules.manage.system.domain.SysUserRole" >
 		select 
 			count(*)		
-	    from arc_sys_user_role
+	    from sys_user_role
 	    <dynamic prepend="where">
     	<isNotEmpty prepend="and" property="id">
 		      id = #id#
@@ -150,7 +150,7 @@
             id,
             role_id,
             user_id     
-        from arc_sys_user_role
+        from sys_user_role
         <dynamic prepend="where">
             <isNotEmpty prepend="and" property="id">
                   id = #id#

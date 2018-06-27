@@ -152,6 +152,9 @@ public class JsonUtil extends tool.util.JsonUtil {
 
     public static void writeJson(Object obj,HttpServletResponse resp){
         try {
+        	resp.setHeader("Access-Control-Allow-Methods", "*");
+        	resp.setHeader("Access-Control-Allow-Headers", "*");
+        	resp.setHeader("Access-Control-Allow-Origin", "*");
             resp.setContentType("application/json");
             resp.setCharacterEncoding("utf8");
             PrintWriter pw=resp.getWriter();

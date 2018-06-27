@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- cl_sms_tpl表:短信记录模块 -->
+<!-- sms_tpl表:短信记录模块 -->
 <mapper namespace="com.pos.api.mapper.SmsTplMapper">
     <!--返回Map-->        
     <resultMap id="BaseResultMap" type="com.pos.api.bean.SmsTpl">
@@ -43,12 +43,12 @@
     
     
     <insert id="save" parameterType="com.pos.api.bean.SmsTpl">
-        insert into cl_sms_tpl(type,type_name,tpl,number,state)values(#{type,jdbcType=VARCHAR},#{typeName,jdbcType=VARCHAR},#{tpl,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR}),#{state,jdbcType=VARCHAR}
+        insert into sms_tpl(type,type_name,tpl,number,state)values(#{type,jdbcType=VARCHAR},#{typeName,jdbcType=VARCHAR},#{tpl,jdbcType=VARCHAR},#{number,jdbcType=VARCHAR}),#{state,jdbcType=VARCHAR}
     </insert>
 
     
     <update id="update" parameterType="com.pos.api.bean.SmsTpl">
-        update cl_sms_tpl set 
+        update sms_tpl set 
             type = #{type,jdbcType=VARCHAR},
             type_name = #{typeName,jdbcType=VARCHAR},
             tpl = #{tpl,jdbcType=VARCHAR},
@@ -59,7 +59,7 @@
 
 
     <update id="updateSelective"  parameterType="java.util.HashMap">
-        update cl_sms_tpl
+        update sms_tpl
           <set>
             <if test="type != null and type != '' ">        
                 type = #{type,jdbcType=VARCHAR},                
@@ -84,21 +84,21 @@
     <select id="findByPrimary" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List" />
-        from cl_sms_tpl
+        from sms_tpl
         where id = #{id,jdbcType=INTEGER}
     </select>
 
 	<select id="findSelective" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_sms_tpl
+        from sms_tpl
         <include refid="searchBy"/>
     </select>
                
     <select id="listSelective" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_sms_tpl
+        from sms_tpl
         <include refid="searchBy"/>
     </select>
     

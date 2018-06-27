@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- cl_sms表:短信记录模块 -->
+<!-- sms表:短信记录模块 -->
 <mapper namespace="com.pos.api.mapper.SmsMapper">
     <!--返回Map-->        
     <resultMap id="BaseResultMap" type="com.pos.api.bean.Sms">
@@ -67,12 +67,12 @@
     
     
     <insert id="save" parameterType="com.pos.api.bean.Sms">
-        insert into cl_sms(phone,send_time,content,resp_time,resp,sms_type,code,order_no,state,verify_time,register_ip)values(#{phone,jdbcType=VARCHAR},#{sendTime,jdbcType=TIMESTAMP},#{content,jdbcType=VARCHAR},#{respTime,jdbcType=TIMESTAMP},#{resp,jdbcType=VARCHAR},#{smsType,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{verifyTime,jdbcType=INTEGER},#{registerIp,jdbcType=INTEGER})
+        insert into sms(phone,send_time,content,resp_time,resp,sms_type,code,order_no,state,verify_time,register_ip)values(#{phone,jdbcType=VARCHAR},#{sendTime,jdbcType=TIMESTAMP},#{content,jdbcType=VARCHAR},#{respTime,jdbcType=TIMESTAMP},#{resp,jdbcType=VARCHAR},#{smsType,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR},#{orderNo,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{verifyTime,jdbcType=INTEGER},#{registerIp,jdbcType=INTEGER})
     </insert>
 
     
     <update id="updateSelective"  parameterType="java.util.HashMap">
-        update cl_sms
+        update sms
           <set>
             <if test="phone != null and phone != '' ">        
                 phone = #{phone,jdbcType=VARCHAR},                
@@ -112,21 +112,21 @@
     <select id="findByPrimary" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List" />
-        from cl_sms
+        from sms
         where id = #{id,jdbcType=INTEGER}
     </select>
 
 	<select id="findSelective" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_sms
+        from sms
         <include refid="searchBy"/>
     </select>
                
     <select id="listSelective" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_sms
+        from sms
         <include refid="searchBy"/>
     </select>
     
@@ -134,17 +134,17 @@
     <select id="findTimeMsg" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_sms WHERE phone = #{phone,jdbcType=VARCHAR} AND sms_type = #{smsType, jdbcType = VARCHAR} order by send_time desc limit 1
+        from sms WHERE phone = #{phone,jdbcType=VARCHAR} AND sms_type = #{smsType, jdbcType = VARCHAR} order by send_time desc limit 1
     </select>
     
     <!-- 查询某号码某种类型当天已发送次数 -->
     <select id="countDayTime" resultType="java.lang.Integer" parameterType="java.util.HashMap">
         select count(1) 
-        from cl_sms WHERE phone = #{phone,jdbcType=VARCHAR} AND sms_type = #{smsType, jdbcType = VARCHAR} 
+        from sms WHERE phone = #{phone,jdbcType=VARCHAR} AND sms_type = #{smsType, jdbcType = VARCHAR} 
         AND DATE_FORMAT(send_time, '%Y-%m-%d') = DATE_FORMAT(NOW(), '%Y-%m-%d') 
     </select>
     <select id="hourOrPhoneCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-        SELECT COUNT(1) FROM `cl_sms`
+        SELECT COUNT(1) FROM `sms`
          <trim prefix="where" prefixOverrides="and|or">
              sms_type = 'register' and state &lt;&gt; '00'
              <if test="ip != null and ip != ''">

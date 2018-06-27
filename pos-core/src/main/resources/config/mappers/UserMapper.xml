@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- arc_user表:用户管理模块 -->
+<!-- user表:用户管理模块 -->
 <mapper namespace="com.rongdu.cashloan.core.mapper.UserMapper">
   <!--返回Map-->        
     <resultMap id="BaseResultMap" type="com.rongdu.cashloan.core.domain.User">
@@ -125,12 +125,12 @@
     </sql>
     
     <insert id="save" parameterType="com.rongdu.cashloan.core.domain.User">
-        insert into cl_user(login_nae,login_pwd,loginpwd_modify_time,regist_time,register_client,trade_pwd,tradepwd_modify_time,uuid,invitation_code,level,channel_id,mark_channel,knid,drainage_id,register_ip,login_ip)
+        insert into user(login_nae,login_pwd,loginpwd_modify_time,regist_time,register_client,trade_pwd,tradepwd_modify_time,uuid,invitation_code,level,channel_id,mark_channel,knid,drainage_id,register_ip,login_ip)
         values(#{loginName,jdbcType=VARCHAR},#{loginPwd,jdbcType=VARCHAR},#{loginpwdModifyTime,jdbcType=TIMESTAMP},#{registTime,jdbcType=TIMESTAMP},#{registerClient,jdbcType=VARCHAR},#{tradePwd,jdbcType=VARCHAR},#{tradepwdModifyTime,jdbcType=TIMESTAMP},#{uuid,jdbcType=VARCHAR},#{invitationCode,jdbcType=VARCHAR},#{level,jdbcType=VARCHAR},#{channelId,jdbcType=BIGINT},#{markChannel,jdbcType=VARCHAR},#{knid,jdbcType=VARCHAR},#{drainageId,jdbcType=BIGINT},#{registerIp,jdbcType=VARCHAR},#{loginIp,jdbcType=VARCHAR},login_time=#{loginTime,jdbcType=TIMESTAMP})
     </insert>
     
     <update id="update" parameterType="com.rongdu.cashloan.core.domain.User">
-        update cl_user set 
+        update user set 
             login_name = #{loginName,jdbcType=VARCHAR},
             login_pwd = #{loginPwd,jdbcType=VARCHAR},
             loginpwd_modify_time = #{loginpwdModifyTime,jdbcType=TIMESTAMP},
@@ -152,7 +152,7 @@
     </update>
 
     <update id="updateSelective"  parameterType="java.util.HashMap">
-        update cl_user
+        update user
           <set>
             <if test="loginName != null and loginName != '' ">        
                 login_name = #{loginName,jdbcType=VARCHAR},                
@@ -212,21 +212,21 @@
     <select id="findByPrimary" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
         <include refid="Base_Column_List" />
-        from cl_user
+        from user
         where id = #{id,jdbcType=BIGINT}
     </select>
 
 	<select id="findSelective" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_user
+        from user
         <include refid="searchBy"/>
     </select>
                
     <select id="listSelective" resultMap="BaseResultMap" parameterType="java.util.HashMap">
         select
         <include refid="Base_Column_List" />
-        from cl_user
+        from user
         <include refid="searchBy"/>
     </select>
     
@@ -289,10 +289,10 @@
         
     <select id="listModel" resultMap="BaseInfoModelMap" parameterType="java.util.HashMap">
     	select u.id,u.login_name,u.regist_time,u.register_client,u.channel_id,u.knid,u.register_ip,u.login_ip,u.login_time,a.real_name,a.id_no,a.company_name,a.education,a.working_years,a.salary,a.state,
-		(SELECT c.name FROM cl_channel c where c.id = u.channel_id) as channel_name,case when u.channel_id=1 then k.province ELSE a.live_province END province,
+		(SELECT c.name FROM channel c where c.id = u.channel_id) as channel_name,case when u.channel_id=1 then k.province ELSE a.live_province END province,
 		case when u.channel_id=1 then k.city ELSE a.live_city END city,case when u.channel_id=1 then k.country ELSE a.live_area END country	
-		from cl_user u left join cl_user_base_info a on u.id = a.user_id
-		left join cl_kn_user k on u.knid=k.knid
+		from user u left join user_base_info a on u.id = a.user_id
+		left join kn_user k on u.knid=k.knid
        	<include refid="searchBaseBy"/>
        	order by u.id desc
     </select>
@@ -300,7 +300,7 @@
     <select id="getModel" resultMap="BaseInfoModelMap" parameterType="java.lang.Long">
         select
         <include refid="Base_User_Column_List" />
-        from  cl_user  u  left join  cl_user_base_info  a  on u.id=a.user_id  
+        from  user  u  left join  user_base_info  a  on u.id=a.user_id  
         where u.id = #{id,jdbcType=BIGINT}
     </select>
     
@@ -318,23 +318,23 @@
 		    dd.item_code,
 		    dd.item_value
 		FROM
-		    arc_sys_dict dic
-		JOIN arc_sys_dict_detail dd ON dd.parent_id = dic.id where  dd.state=10
+		    sys_dict dic
+		JOIN sys_dict_detail dd ON dd.parent_id = dic.id where  dd.state=10
 	    and type_code in ('RANK_TYPE','CONTACT_RELATION','EDUCATIONAL_STATE','MARITAL_STATE','LIVE_TIME','WORK_TIME','SALARY_RANGE')
  	</select>
  	
     <select id="findByLoginName" resultMap="BaseResultMap" parameterType="java.lang.String">
-        SELECT * FROM `cl_user` WHERE login_name like concat("%",#{loginName,jdbcType=VARCHAR},"%")
+        SELECT * FROM `user` WHERE login_name like concat("%",#{loginName,jdbcType=VARCHAR},"%")
     </select>
     
 	<update id="updateLevel" parameterType="com.rongdu.cashloan.core.domain.User">
-        update cl_user set 
+        update user set 
             level = #{level,jdbcType=INTEGER}
         where id = #{id ,jdbcType=BIGINT}
     </update>
     
     <select id="findUserLevel" resultMap="BaseResultMap" parameterType="java.lang.String">
-        SELECT id, login_name,level,regist_time FROM `cl_user` 
+        SELECT id, login_name,level,regist_time FROM `user` 
         WHERE `level` = 3 
         <if test="loginName != null and loginName != '' ">        
                AND login_name LIKE #{loginName,jdbcType=VARCHAR}
@@ -343,7 +343,7 @@
     </select>
 
 	<update id="updateByUuid" parameterType="java.util.HashMap">
-		update cl_user
+		update user
 		<set>
 			<if test="loginName != null and loginName != '' ">
 				login_name = #{loginName,jdbcType=VARCHAR},
@@ -392,7 +392,7 @@
 	</update>
 	
 	<select id="todayCount" resultType="java.lang.Long">
-        SELECT COUNT(1) FROM cl_user WHERE regist_time &gt; DATE_FORMAT(now(), '%Y-%m-%d')
+        SELECT COUNT(1) FROM user WHERE regist_time &gt; DATE_FORMAT(now(), '%Y-%m-%d')
     </select>
 	
 </mapper>

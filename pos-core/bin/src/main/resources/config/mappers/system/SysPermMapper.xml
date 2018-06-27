@@ -39,14 +39,14 @@
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
-		from arc_sys_perm
+		from sys_perm
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 
 	<select id="fetchAll" resultMap="permHashMap" parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
-		FROM arc_sys_perm
+		FROM sys_perm
 	</select>
 
 
@@ -55,14 +55,14 @@
 		SELECT
 		<include refid="permssion_Column_List" />
 		FROM
-		arc_sys_perm perm
+		sys_perm perm
 		INNER JOIN (
 		SELECT
-		arc_sys_role_perm.perm_id
+		sys_role_perm.perm_id
 		FROM
-		arc_sys_role_perm
+		sys_role_perm
 		WHERE 1=1
-		AND arc_sys_role_perm.role_id = (#{roleId,jdbcType=INTEGER}
+		AND sys_role_perm.role_id = (#{roleId,jdbcType=INTEGER}
 		) )AS role_perm ON role_perm.perm_id = perm.id
 		ORDER BY perm.id
 	</select>
@@ -72,34 +72,34 @@
 		SELECT
 		<include refid="permssion_Column_List" />
 		FROM
-		arc_sys_perm perm
+		sys_perm perm
 		INNER JOIN (
 		SELECT
-		arc_sys_role_perm.perm_id
+		sys_role_perm.perm_id
 		FROM
 		(
 		SELECT
-		arc_sys_role.*
+		sys_role.*
 		FROM
-		arc_sys_user,
-		arc_sys_role,
-		arc_sys_user_role
+		sys_user,
+		sys_role,
+		sys_user_role
 		WHERE
-		arc_sys_user.user_name =
+		sys_user.user_name =
 		#{userName,jdbcType=VARCHAR}
-		AND arc_sys_user_role.user_id = arc_sys_user.id
-		AND arc_sys_role.id = arc_sys_user_role.role_id
+		AND sys_user_role.user_id = sys_user.id
+		AND sys_role.id = sys_user_role.role_id
 		) AS role,
-		arc_sys_role_perm
+		sys_role_perm
 		WHERE
-		role.id = arc_sys_role_perm.role_id
+		role.id = sys_role_perm.role_id
 		) AS role_perm ON role_perm.perm_id =
 		perm.id
 		ORDER BY perm.id
 	</select> 
 
 	<insert id="save" parameterType="com.rongdu.cashloan.system.domain.SysPerm">
-		insert into arc_sys_perm (id,
+		insert into sys_perm (id,
 		code, name,
 		perm_level, remark, add_time,
 		add_user, menu_id)
@@ -112,7 +112,7 @@
 	</insert>
 
 	<update id="updateByPrimaryKeySelective" parameterType="com.rongdu.cashloan.system.domain.SysPerm">
-		update arc_sys_perm
+		update sys_perm
 		<set>
 			<if test="code != null">
 				code = #{code,jdbcType=VARCHAR},

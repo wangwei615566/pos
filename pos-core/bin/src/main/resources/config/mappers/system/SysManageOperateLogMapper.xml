@@ -5,7 +5,7 @@
 	<insert id="saveSysManageOperateLog"
 		parameterType="com.czwx.cashloan.core.model.SysOperateLog">
 		insert into
-		arc_sys_log(action_name,action_url,create_time,operate_id,operate_name,params)
+		sys_log(action_name,action_url,create_time,operate_id,operate_name,params)
 		values(#{actionName,jdbcType=VARCHAR},#{actionUrl,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},
 		#{operId,jdbcType=VARCHAR},#{operName,jdbcType=VARCHAR},#{params,jdbcType=VARCHAR})
 	</insert>

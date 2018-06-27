@@ -35,18 +35,18 @@ public class PermissionsInterceptor extends HandlerInterceptorAdapter {
 	  	if(url == null || url.length() <= 0){
 	  		return true;
 	  	}
-//	  	boolean flag = sysMenuService.getMenuPermission(user.getUsername(), url);
-//	  	if (!flag) {
-//			try {
-//				response.setContentType("text/html;charset=utf-8");
-//				response.getWriter().print(MessageUtil.getMessage("W10002"));
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			} finally {
-//				response.getWriter().close();
-//			}
-//			return false;
-//		}
+	  	boolean flag = sysMenuService.getMenuPermission(user.getUsername(), url);
+	  	if (!flag) {
+			try {
+				response.setContentType("text/html;charset=utf-8");
+				response.getWriter().print("没有此操作权限");
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				response.getWriter().close();
+			}
+			return false;
+		}
 		return true;
 	}
 }

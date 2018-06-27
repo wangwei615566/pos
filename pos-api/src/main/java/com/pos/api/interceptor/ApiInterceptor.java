@@ -118,16 +118,14 @@ public class ApiInterceptor implements HandlerInterceptor {
 		Map<String, Object> rec = new LinkedHashMap<String, Object>();
 		// 登录后的请求地址都带有/act/
 		boolean flag = false;
-		if (uri.contains("/act/")) {
-			if (StringUtil.isEmpty(signMsg)) {
-				rec.put("code", 400);
-				rec.put("msg", "没有signMsg");
-				JsonUtil.writeJson(rec, response);
-				return false;
-			}
-			flag =  MD5.verify(paramsString(requestMap),signMsg, Global.getValue("app_key"));
-			// 不需要登录的地址可能没有token
+		if (StringUtil.isEmpty(signMsg)) {
+			rec.put("code", 400);
+			rec.put("msg", "没有signMsg");
+			JsonUtil.writeJson(rec, response);
+			return false;
 		}
+		flag =  MD5.verify(paramsString(requestMap),signMsg, Global.getValue("app_key"));
+			// 不需要登录的地址可能没有token
 		// 根据地址是否带/act/生成的_signMsg，校验
 		if (!flag) {
 			rec.put("code", 400);

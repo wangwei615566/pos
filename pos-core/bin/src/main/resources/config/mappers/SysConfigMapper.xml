@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- arc_sys_config表:系统参数表模块 -->
+<!-- sys_config表:系统参数表模块 -->
 <mapper namespace="com.rongdu.cashloan.core.mapper.SysConfigMapper">
     <!--xml内部引用别名-->
 	<!--返回MAP-->		
@@ -93,7 +93,7 @@
     
 	<!-- 动态的插入,必须要创建时间 -->
 	<insert id="save" parameterType="com.rongdu.cashloan.system.domain.SysConfig">
-		insert into arc_sys_config
+		insert into sys_config
         (
         <include refid="InsertKey"/>
         )values(
@@ -107,54 +107,54 @@
 
     <!-- 动态更新 -->
     <update id="update" parameterType="com.rongdu.cashloan.system.domain.SysConfig">
-        update arc_sys_config
+        update sys_config
         <include refid="Update"/>
         where id = #{id}
     </update>
 
     <!-- 动态查询 -->
     <select id="select" parameterType="java.util.HashMap" resultMap="SysConfigMap">
-        select * from arc_sys_config 
+        select * from sys_config 
         <include refid="Select"/>
         <include refid="Sort"/>
     </select>
     
     <!-- 根据code查询  -->
     <select id="selectByCode" parameterType="String" resultMap="SysConfigMap">
-        select * from arc_sys_config where code = #{code}
+        select * from sys_config where code = #{code}
     </select>
     
     <!-- 返回总数 -->
     <select id="total" parameterType="java.util.HashMap" resultType="java.lang.Integer">
-        select count(*) from arc_sys_config 
+        select count(*) from sys_config 
         <include refid="Select"/>
         <include refid="Sort"/>
     </select>
     
     <!-- 根据code模糊查询  -->
     <select id="listByCode" resultMap="SysConfigMap" parameterType="String" >
-        select * from arc_sys_config where code like concat('',#{code}, '%')
+        select * from sys_config where code like concat('',#{code}, '%')
     </select>
     
     
     <select id="listSelective" resultMap="SysConfigMap" parameterType="java.util.HashMap" >
-        select * from arc_sys_config 
+        select * from sys_config 
         <include refid="Select"/>
     </select>
 
     <!--根据ID删除-->
     <delete id="delete">
-        delete from arc_sys_config
+        delete from sys_config
         where
         id  = #{id}
     </delete>
     
     <select id="findAll" resultMap="SysConfigMap">
-    	select * from arc_sys_config where status = 1
+    	select * from sys_config where status = 1
     </select>
 
     <!--查询系统的版本号-->
     <select id="findSysVersionCode" resultType="String">
-        select version_code from arc_sys_version_info   order by id desc limit 1
+        select version_code from sys_version_info   order by id desc limit 1
     </select>
 </mapper> 

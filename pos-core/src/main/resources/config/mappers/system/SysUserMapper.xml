@@ -219,7 +219,7 @@
 			SELECT
 			LAST_INSERT_ID() AS ID
 		</selectKey>
-		insert into arc_sys_user(
+		insert into sys_user(
 		name,
 		user_name,
 		password,
@@ -266,7 +266,7 @@
 	</insert>
 
 	<update id="update" parameterType="com.rongdu.cashloan.system.domain.SysUser">
-		update arc_sys_user
+		update sys_user
 		set
 		name=#{name},
 		job_num=#{number},
@@ -286,7 +286,7 @@
 	</update>
 
 	<update id="editUserLoginInfo" parameterType="com.rongdu.cashloan.system.domain.SysUser">
-		update arc_sys_user
+		update sys_user
 		set
 		login_ip=#{loginIp},
 		login_time= #{loginTime}
@@ -296,7 +296,7 @@
 	</update>
 
 	<update id="editUserPassWord" parameterType="com.rongdu.cashloan.system.domain.SysUser">
-		update arc_sys_user
+		update sys_user
 		set
 		password=#{password}
 		where
@@ -304,14 +304,14 @@
 	</update>
 
 	<update id="updateSysUserById" parameterType="java.util.Map">
-		update arc_sys_user
+		update sys_user
 		<include refid="updateByPo" />
 		where
 		id = #{id}
 	</update>
 	
 	<update id="updateState" parameterType="java.util.Map">
-		update arc_sys_user
+		update sys_user
 		SET `status` = #{status},is_delete = #{isDelete}
 		WHERE id = #{id}
 	</update>
@@ -319,7 +319,7 @@
 	<select id="findByPrimary" parameterType="long" resultMap="sysUserResult">
 		select
 		<include refid="searchSql" />
-		from arc_sys_user
+		from sys_user
 		where
 		is_delete = 0 and id = #{id}
 	</select>
@@ -328,7 +328,7 @@
 	<select id="getUserByUserName" parameterType="String" resultMap="sysUserResult">
 		select
 		<include refid="searchSql" />
-		from arc_sys_user
+		from sys_user
 		where
 		is_delete = 0 and user_name = #{userName}
 	</select>
@@ -341,7 +341,7 @@
 		u.name as name,
 		u.office_id as officeId
 		from
-		arc_sys_user u,arc_sys_user_role ur,arc_sys_role r
+		sys_user u,sys_user_role ur,sys_role r
 		where u.id=ur.user_id and
 		r.id=ur.role_id and u.is_delete=0
 		<if test="officeId!=null and officeId!='' ">
@@ -357,8 +357,8 @@
 		SELECT
 		count(u.id)
 		FROM
-		arc_sys_user u,
-		arc_sys_user_role ur
+		sys_user u,
+		sys_user_role ur
 		WHERE
 		u.id =
 		ur.user_id
@@ -370,7 +370,7 @@
 		select count(*) from (
 		select
 		count(1)
-		from arc_sys_user u,arc_sys_user_role ur,sys_role r
+		from sys_user u,sys_user_role ur,sys_role r
 		where u.is_delete = 0 and
 		u.id = ur.user_id and r.id = ur.role_id
 		<if test="id!=null and id!='' ">
@@ -437,8 +437,8 @@
 		group_concat( u4.id) as roleId,
 		group_concat( u4.name) as
 		roleName
-		from arc_sys_user u,
-		arc_sys_user_role u2, arc_sys_role u4
+		from sys_user u,
+		sys_user_role u2, sys_role u4
 		where u.id =
 		u2.user_id
 		and u2.role_id = u4.id
@@ -501,8 +501,8 @@
 		u.status as status,
 		group_concat( u4.id) as roleId,
 		group_concat( u4.name) as roleName
-		from arc_sys_user u,
-		arc_sys_user_role u2, arc_sys_role u4
+		from sys_user u,
+		sys_user_role u2, sys_role u4
 		where u.id = u2.user_id
 		and u2.role_id = u4.id
 		<if test="id!=null and id!='' ">
@@ -540,12 +540,12 @@
 		SELECT usr.user_name as "userName",
 		usr.office_id as "officeId",
 		count(task.ASSIGNEE_) as "count"
-		FROM arc_sys_user usr
+		FROM sys_user usr
 		left JOIN ACT_RU_TASK task
 		on task.ASSIGNEE_ = usr.user_name
-		INNER JOIN arc_sys_user_role ur
+		INNER JOIN sys_user_role ur
 		on ur.user_id = usr.id
-		INNER JOIN arc_sys_role r
+		INNER JOIN sys_role r
 		on r.id = ur.role_id
 		WHERE
 		r.nid = #{roleName}
@@ -577,11 +577,11 @@
 		usr.office_id as officeId,
 		ur.role_id as roleId
 		FROM ACT_HI_TASKINST task_ins
-		INNER JOIN arc_sys_user usr on
+		INNER JOIN sys_user usr on
 		usr.user_name = task_ins.ASSIGNEE_
-		INNER JOIN arc_sys_user_role ur on
+		INNER JOIN sys_user_role ur on
 		ur.user_id = usr.id
-		INNER JOIN arc_sys_role role on role.id = ur.role_id
+		INNER JOIN sys_role role on role.id = ur.role_id
 		WHERE
 		task_ins.PROC_INST_ID_ = #{processInstanceId}
 		AND
@@ -593,9 +593,9 @@
 		resultMap="sysUserResult">
 		select
 		u.*
-		from arc_sys_user u
-		INNER JOIN arc_sys_user_role ur on u.id = ur.user_id
-		INNER JOIN arc_sys_role r on r.id = ur.role_id
+		from sys_user u
+		INNER JOIN sys_user_role ur on u.id = ur.user_id
+		INNER JOIN sys_role r on r.id = ur.role_id
 		where r.nid = #{roleName}
 		<if test="officeId !=null and officeId !='' ">
 			and u.office_id = #{officeId}
@@ -615,9 +615,9 @@
 		u.id,
 		u.name,
 		u.user_name as userName
-		from arc_sys_user u
-		INNER JOIN arc_sys_user_role ur on u.id = ur.user_id
-		INNER JOIN arc_sys_role r on r.id = ur.role_id
+		from sys_user u
+		INNER JOIN sys_user_role ur on u.id = ur.user_id
+		INNER JOIN sys_role r on r.id = ur.role_id
 		<where>
 			<if test="roleName != null">
 				and r.nid in
@@ -639,7 +639,7 @@
 	<select id="findSelective" resultMap="sysUserResult" parameterType="java.util.HashMap">
         select
         <include refid="searchSql" />
-        from arc_sys_user
+        from sys_user
         <include refid="searchByPo"/>
     </select>
 </mapper>     

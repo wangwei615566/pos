@@ -58,7 +58,7 @@
 			item_code ,
 			item_value ,
 			parent_id 
-	    from arc_sys_dict_detail
+	    from sys_dict_detail
 		<include refid="baseSysDictDetailWhereSql"/>
 		order by ID desc
 	</select>
@@ -66,19 +66,19 @@
 	<select id="getCount" resultType="java.lang.Long" parameterType="java.util.HashMap" >
 		select 
 			count(1)		
-	    from arc_sys_dict_detail
+	    from sys_dict_detail
 		<include refid="baseSysDictDetailWhereSql"/>
 	</select>
 	
 	<select id="getItemVlueByParentId" resultMap="sysDictDetailResultMap" parameterType="java.lang.String" >
 	 	select 
 			item_value 
-	    from arc_sys_dict_detail
+	    from sys_dict_detail
 		where parent_id = #{parentId}
 	</select>
 	
 	<insert id="save" parameterType="com.rongdu.cashloan.system.domain.SysDictDetail">
-		insert into arc_sys_dict_detail(
+		insert into sys_dict_detail(
 			item_code,
 			item_value,
 			parent_id				
@@ -96,7 +96,7 @@
 	
 	<!--更新所有字段-->
 	<update id="update" parameterType="com.rongdu.cashloan.system.domain.SysDictDetail">
-		update arc_sys_dict_detail
+		update sys_dict_detail
 		set
 			item_code=#{itemCode},
 			item_value=#{itemValue},
@@ -110,7 +110,7 @@
 	
 	<!--根据ID删除-->
 	<delete id="deleteByPrimary" parameterType="long">
-		delete from arc_sys_dict_detail
+		delete from sys_dict_detail
 		where
 		id  = #{id}
  	</delete>
@@ -122,12 +122,12 @@
 		    dd.item_code,
 		    dd.item_value
 		FROM
-		    arc_sys_dict dic
-		JOIN arc_sys_dict_detail dd ON dd.parent_id = dic.id
+		    sys_dict dic
+		JOIN sys_dict_detail dd ON dd.parent_id = dic.id
  	</select>
  	
  	<select id="findDetail" resultType="com.rongdu.cashloan.system.domain.SysDictDetail">
- 		select a.id,a.item_code itemCode,a.item_value itemValue,a.parent_id parentId,a.state from arc_sys_dict_detail a  LEFT JOIN arc_sys_dict b on b.id = a.parent_id 
+ 		select a.id,a.item_code itemCode,a.item_value itemValue,a.parent_id parentId,a.state from sys_dict_detail a  LEFT JOIN sys_dict b on b.id = a.parent_id 
 		where a.item_code = #{code,jdbcType=VARCHAR} and b.type_code = #{parentName,jdbcType=VARCHAR}
  	</select>
  	
@@ -139,8 +139,8 @@
 		    dd.item_code,
 		    dd.item_value
 		FROM
-		    arc_sys_dict dic
-		JOIN arc_sys_dict_detail dd ON dd.parent_id = dic.id
+		    sys_dict dic
+		JOIN sys_dict_detail dd ON dd.parent_id = dic.id
 		<where>
 			<if test="parentName!=null and parentName!=''">
 				dic.type_code = #{parentName,jdbcType=VARCHAR}
@@ -150,14 +150,14 @@
  	
  	<!-- <select id="listByTypeCode" resultMap="sysDictDetailResult" parameterType="java.util.HashMap">
  		SELECT id,item_value 
-		FROM arc_sys_dict_detail
+		FROM sys_dict_detail
 		WHERE parent_id = 7
-		AND id NOT IN (SELECT credit_type_id FROM arc_cr_credit_type)
+		AND id NOT IN (SELECT credit_type_id FROM cr_credit_type)
 	</select> -->
 	
 	<select id="listByTypeCode" resultMap="sysDictDetailResult" parameterType="java.util.HashMap">
  		SELECT dd.* 
-		FROM arc_sys_dict d, arc_sys_dict_detail dd 
+		FROM sys_dict d, sys_dict_detail dd 
 		WHERE dd.parent_id = d.id 
 		AND d.type_code = #{typeCode,jdbcType=VARCHAR} 
 		AND dd.state = 10
@@ -165,8 +165,8 @@
  	
  	<select id="listUpdateCode" resultMap="sysDictDetailResult" parameterType="java.util.HashMap">
 		SELECT id,item_value
-		FROM arc_sys_dict_detail
-		WHERE (parent_id=#{parentId} AND id NOT IN (SELECT credit_type_id FROM arc_cr_credit_type))
+		FROM sys_dict_detail
+		WHERE (parent_id=#{parentId} AND id NOT IN (SELECT credit_type_id FROM cr_credit_type))
 		OR id = #{id}
 	</select>
 	

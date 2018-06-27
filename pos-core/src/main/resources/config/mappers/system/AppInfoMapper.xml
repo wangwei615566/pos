@@ -4,6 +4,6 @@
 <mapper namespace="com.rongdu.cashloan.system.mapper.AppInfoMapper">
 	<select id="getAppInfo" parameterType="java.lang.String" resultType="java.util.Map">
 		select version_name as versionName, remark, update_url  updateUrl, force_update forceUpdate, versionCode
-		from arc_app_info where mobile_type = #{mobileType} order by create_time desc limit 1
+		from app_info where mobile_type = #{mobileType} order by create_time desc limit 1
 	</select>
 </mapper>
