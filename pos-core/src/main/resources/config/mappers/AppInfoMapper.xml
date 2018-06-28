@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.czwx.cashloan.core.mapper.AppInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.czwx.cashloan.core.model.AppInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="version_name" property="versionName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="mobile_type" property="mobileType" jdbcType="CHAR" />
+    <result column="update_url" property="updateUrl" jdbcType="VARCHAR" />
+    <result column="force_update" property="forceUpdate" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, version_name, remark, mobile_type, update_url, force_update, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from app_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from app_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.czwx.cashloan.core.model.AppInfo" >
+    insert into app_info (id, version_name, remark, 
+      mobile_type, update_url, force_update, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{versionName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{mobileType,jdbcType=CHAR}, #{updateUrl,jdbcType=VARCHAR}, #{forceUpdate,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.czwx.cashloan.core.model.AppInfo" >
+    insert into app_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="versionName != null" >
+        version_name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="mobileType != null" >
+        mobile_type,
+      </if>
+      <if test="updateUrl != null" >
+        update_url,
+      </if>
+      <if test="forceUpdate != null" >
+        force_update,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="versionName != null" >
+        #{versionName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileType != null" >
+        #{mobileType,jdbcType=CHAR},
+      </if>
+      <if test="updateUrl != null" >
+        #{updateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="forceUpdate != null" >
+        #{forceUpdate,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.czwx.cashloan.core.model.AppInfo" >
+    update app_info
+    <set >
+      <if test="versionName != null" >
+        version_name = #{versionName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileType != null" >
+        mobile_type = #{mobileType,jdbcType=CHAR},
+      </if>
+      <if test="updateUrl != null" >
+        update_url = #{updateUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="forceUpdate != null" >
+        force_update = #{forceUpdate,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.czwx.cashloan.core.model.AppInfo" >
+    update app_info
+    set version_name = #{versionName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      mobile_type = #{mobileType,jdbcType=CHAR},
+      update_url = #{updateUrl,jdbcType=VARCHAR},
+      force_update = #{forceUpdate,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
