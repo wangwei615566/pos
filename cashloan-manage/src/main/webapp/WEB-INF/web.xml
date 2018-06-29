@@ -148,7 +148,7 @@
 		<listener-class>com.rongdu.cashloan.core.common.web.listener.WebConfigContextListener</listener-class>
 	</listener>
 	<listener>
-		<listener-class>com.rongdu.cashloan.manage.listener.QuartzListener</listener-class>
+		<listener-class>com.pos.manage.listener.QuartzListener</listener-class>
 	</listener>
 	<servlet>
 		<servlet-name>springServlet</servlet-name>
