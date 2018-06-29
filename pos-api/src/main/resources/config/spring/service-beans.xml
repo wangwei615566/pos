@@ -20,7 +20,7 @@
 	<!-- 此文件暂时配置不多，在以后如果需要开放接口或者调用别的项目开放接口的时候，最好采用scoket通信模式，将配置文件配置到这里 -->
 
 	<!-- Security不支持自定义注解注入service -->
-	<context:component-scan base-package="com.pos.api.user.service,com.pos.api.service,com.rongdu.cashloan.core.service">
+	<context:component-scan base-package="com.pos.api.user.service,com.pos.api.service,com.rongdu.cashloan.core.service,com.rongdu.cashloan.system.service">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
@@ -47,5 +47,22 @@
     <!--延时任务初始化 -->
 	<bean id="itemQueueThread" class="com.pos.api.util.ItemQueueThread" init-method="init">
 	</bean>
-
+	<!-- 密码加密 -->
+	<bean id="passwordEncoder"
+		class="com.rongdu.cashloan.system.security.authentication.encoding.PasswordEncoder">
+		<property name="crypto">
+			<bean
+				class="com.rongdu.cashloan.core.common.util.crypto.impl.BlowfishCryptoImpl">
+				<property name="key"
+					value="${system.password.encoding.key}" />
+			</bean>
+		</property>
+		<property name="saltSource">
+			<bean
+				class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+				<property name="systemWideSalt"
+					value="${system.password.encoding.salt}" />
+			</bean>
+		</property>
+	</bean>
 </beans>

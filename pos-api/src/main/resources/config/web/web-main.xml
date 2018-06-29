@@ -75,7 +75,7 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/api/**/*"/>
 			<mvc:exclude-mapping path="/api/qianchenNotify.htm"/>
@@ -95,6 +95,6 @@
 
 			<bean class="com.pos.api.interceptor.ApiInterceptor"/>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 	
 </beans>

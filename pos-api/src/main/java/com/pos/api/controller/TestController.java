@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.rongdu.cashloan.core.common.context.Constant;
 import com.rongdu.cashloan.core.common.util.ServletUtils;
+import com.rongdu.cashloan.core.common.web.controller.BaseController;
 
 @Scope("prototype")
 @Controller
 @RequestMapping("/api")
-public class TestController {
+public class TestController extends BaseController{
 	@RequestMapping("test")
 	public void test(HttpServletResponse response){
 		Map<String, Object> result = new HashMap<String, Object>();
