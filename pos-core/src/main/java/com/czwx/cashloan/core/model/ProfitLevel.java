@@ -21,6 +21,18 @@ public class ProfitLevel {
     private Date updateTime;
 
     private Date createTime;
+    /**
+     * 是否会员
+     */
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public Long getId() {
         return id;

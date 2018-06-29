@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.github.pagehelper.Page;
 import com.rongdu.cashloan.core.common.service.BaseService;
-import com.rongdu.cashloan.core.domain.User;
+import com.czwx.cashloan.core.model.User;
 import com.rongdu.cashloan.core.model.CloanUserModel;
 
 
@@ -54,5 +54,7 @@ public interface CloanUserService extends BaseService<User, Long>{
 	 * @return
 	 */
 	long todayCount();
+
+	User selectByPrimaryKey(Long id);
 	
 }

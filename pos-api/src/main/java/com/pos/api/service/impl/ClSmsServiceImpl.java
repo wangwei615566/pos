@@ -14,6 +14,8 @@ import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
+import com.czwx.cashloan.core.mapper.UserMapper;
+import com.czwx.cashloan.core.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -30,8 +32,6 @@ import com.rongdu.cashloan.core.common.service.impl.BaseServiceImpl;
 import com.rongdu.cashloan.core.common.util.DateUtil;
 import com.rongdu.cashloan.core.common.util.HttpUtil;
 import com.rongdu.cashloan.core.common.util.StringUtil;
-import com.rongdu.cashloan.core.domain.User;
-import com.rongdu.cashloan.core.mapper.UserMapper;
 
 import credit.Header;
 import smscredit.BatchSmsCreditRequest;
