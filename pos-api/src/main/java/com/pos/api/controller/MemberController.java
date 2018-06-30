@@ -1,11 +1,13 @@
 package com.pos.api.controller;
 
+import com.czwx.cashloan.core.model.Goods;
 import com.czwx.cashloan.core.model.ProfitLevel;
 import com.czwx.cashloan.core.model.User;
 import com.rongdu.cashloan.core.common.context.Constant;
 import com.rongdu.cashloan.core.common.util.ServletUtils;
 import com.rongdu.cashloan.core.common.web.controller.BaseController;
 import com.rongdu.cashloan.core.service.CloanUserService;
+import com.rongdu.cashloan.core.service.GoodsService;
 import com.rongdu.cashloan.core.service.ProfitLevelService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -20,15 +22,17 @@ import java.util.Map;
 
 @Scope("prototype")
 @Controller
-public class MemberController{
+public class MemberController extends BaseController{
 
     @Resource
     private ProfitLevelService profitLevelService;
     @Resource
     private CloanUserService userService;
+    @Resource
+    private GoodsService goodsService;
 
     @RequestMapping("api/level/all/center.htm")
-    public void memberCenter(@RequestParam(value = "userId")Long userId,HttpServletResponse response){
+    public void memberCenter(@RequestParam(value = "userId")Long userId){
         Map<String, Object> param = new HashMap<>();
         List<ProfitLevel> profitLevels = profitLevelService.listSelect(param);
         User user = userService.selectByPrimaryKey(userId);
@@ -48,12 +52,21 @@ public class MemberController{
     }
 
     @RequestMapping("api/level/all/test.htm")
-    public void test(HttpServletResponse response){
+    public void test(){
         Map<String, Object> param = new HashMap<>();
-
+        List<Goods> goods = goodsService.listMember(1L);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-        result.put(Constant.RESPONSE_DATA, "111");
+        result.put(Constant.RESPONSE_DATA, goods);
+        result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
+        ServletUtils.writeToResponse(response, result);
+    }
+    @RequestMapping("api/level/all/recharge.htm")
+    public void recharge(@RequestParam(value = "userId")Long userId) {
+        List<Goods> goods = goodsService.listMember(userId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        result.put(Constant.RESPONSE_DATA, goods);
         result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
         ServletUtils.writeToResponse(response, result);
     }

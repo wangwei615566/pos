@@ -22,6 +22,19 @@ public class Goods {
 
     private Date createTime;
 
+    /**
+     * 是否已购买该商品
+     */
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
     public Long getId() {
         return id;
     }

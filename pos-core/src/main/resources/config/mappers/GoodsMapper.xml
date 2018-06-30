@@ -15,11 +15,48 @@
   <sql id="Base_Column_List" >
     id, name, price, spec, type, state, profit_amount, udpate_time, create_time
   </sql>
+  <sql id="searchBy">
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="price != null" >
+        and price = #{name,jdbcType=DECIMAL}
+      </if>
+      <if test="spec != null" >
+        and spec = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=TINYINT}
+      </if>
+      <if test="state != null" >
+        and state = #{state,jdbcType=TINYINT}
+      </if>
+      <if test="profitAmount != null" >
+        and profit_amount = #{profitAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from goods
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listSelect" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    <include refid="searchBy"/>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from goods
