@@ -6,6 +6,8 @@ import java.util.Date;
 public class Order {
     private Long id;
 
+    private Long userId;
+
     private String orderNo;
 
     private Long shippingAddrId;
@@ -23,6 +25,14 @@ public class Order {
     private Date updateTime;
 
     private Date createTime;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public Long getId() {
         return id;

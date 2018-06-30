@@ -24,10 +24,15 @@ public class GoodsServiceImpl implements GoodsService {
         param.put("type",2);
         List<Goods> goods = goodsMapper.listSelect(param);
         User user = userMapper.selectByPrimaryKey(userId);
-        if (user.getLevelId() == 2) goods.get(0).setFlag(false);
-        if (user.getLevelId() == 3) {
+        if (user.getLevelId() == 2) {
+            goods.get(0).setFlag(false);
+            goods.get(1).setFlag(true);
+        } else if (user.getLevelId() == 3) {
             goods.get(0).setFlag(false);
             goods.get(1).setFlag(false);
+        }else {
+            goods.get(0).setFlag(true);
+            goods.get(1).setFlag(true);
         }
         return goods;
     }
