@@ -12,11 +12,36 @@
   <sql id="Base_Column_List" >
     id, order_id, goods_id, goods_num, update_time, create_time
   </sql>
+  <sql id="searchBy">
+    <trim prefixOverrides="and|or" prefix="where">
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null" >
+        AND order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null" >
+        AND goods_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="goodsId != null" >
+        AND order_no = #{goodsId,jdbcType=BIGINT}
+      </if>
+      <if test="goodsNum != null" >
+        AND goods_num = #{goodsNum,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from order_detail
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listSelective" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_detail
+    <include refid="searchBy"/>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from order_detail

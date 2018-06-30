@@ -1,20 +1,19 @@
 package com.rongdu.cashloan.core.service.impl;
 
 import com.czwx.cashloan.core.mapper.GoodsMapper;
+import com.czwx.cashloan.core.mapper.OrderDetailMapper;
 import com.czwx.cashloan.core.mapper.OrderMapper;
 import com.czwx.cashloan.core.mapper.UserMapper;
 import com.czwx.cashloan.core.model.Goods;
 import com.czwx.cashloan.core.model.Order;
+import com.czwx.cashloan.core.model.OrderDetail;
 import com.czwx.cashloan.core.model.User;
 import com.rongdu.cashloan.core.common.exception.BussinessException;
 import com.rongdu.cashloan.core.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
@@ -25,8 +24,11 @@ public class OrderServiceImpl implements OrderService {
     private GoodsMapper goodsMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private OrderDetailMapper orderDetailMapper;
     @Override
     public Order createOrderMember(Long userId,Long goodsId) {
+        Date date = new Date();
         Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
         String orderNo = getOrderNo();
         Order order = new Order();
@@ -35,9 +37,17 @@ public class OrderServiceImpl implements OrderService {
         order.setGoodsNum(1);
         order.setAmount(goods.getPrice());
         order.setState((byte)1);
-        order.setUpdateTime(new Date());
-        order.setCreateTime(new Date());
+        order.setUpdateTime(date);
+        order.setCreateTime(date);
         orderMapper.insertSelective(order);
+
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setGoodsId(goodsId);
+        orderDetail.setGoodsNum(1);
+        orderDetail.setOrderId(order.getId());
+        orderDetail.setCreateTime(date);
+        orderDetail.setUpdateTime(date);
+        orderDetailMapper.insertSelective(orderDetail);
         return order;
     }
 
@@ -71,6 +81,24 @@ public class OrderServiceImpl implements OrderService {
         }else {
             return false;
         }
+    }
+
+    @Override
+    public List<Order> listSelective(Map<String, Object> param) {
+        return orderMapper.listSelective(param);
+    }
+
+    @Override
+    public List<OrderDetail> orderDetail(Long orderId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("orderId",orderId);
+        List<OrderDetail> orderDetails = orderDetailMapper.listSelective(param);
+        for (OrderDetail d:orderDetails
+             ) {
+            Goods goods = goodsMapper.selectByPrimaryKey(d.getGoodsId());
+            d.setGoods(goods);
+        }
+        return orderDetails;
     }
 
     /**

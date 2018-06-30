@@ -15,6 +15,16 @@ public class OrderDetail {
 
     private Date createTime;
 
+    private Goods goods;
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
     public Long getId() {
         return id;
     }
