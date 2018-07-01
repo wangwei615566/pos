@@ -19,6 +19,31 @@
     from profit_agent
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="extensionAndGoodsCount" parameterType="java.lang.Long" resultType="java.util.Map">
+    SELECT COUNT(DISTINCT pa.user_id) extensionCount,SUM(o.goods_num) goodsCount FROM `profit_agent` pa
+      LEFT JOIN `user` u ON pa.user_id = u.id
+      LEFT JOIN `order` o ON u.id = o.user_id WHERE pa.use_state = 1 AND pa.leader_id = #{userId,jdbcType = BIGINT}
+  </select>
+  <select id="extensionList" parameterType="java.lang.Long" resultType="java.util.Map">
+    SELECT u.level_id,ubi.real_name,ubi.phone FROM `profit_agent` pa
+      LEFT JOIN `user` u ON pa.user_id = u.id
+      LEFT JOIN user_base_info ubi ON u.id = ubi.user_id WHERE pa.use_state = 1 AND pa.leader_id = #{userId,jdbcType = BIGINT}
+  </select>
+  <select id="goodsList" parameterType="java.lang.Long" resultType="java.util.Map">
+    SELECT g.id,g.name,SUM(od.goods_num) goodsNum FROM `profit_agent` pa
+      LEFT JOIN `order` o ON pa.user_id = o.user_id
+      LEFT JOIN order_detail od ON o.id = od.order_id
+      LEFT JOIN goods g ON od.goods_id = g.id WHERE  pa.use_state = 1 AND pa.leader_id = #{userId,jdbcType = BIGINT} GROUP BY g.id
+  </select>
+
+  <select id="goodsListDetailUser" parameterType="java.util.Map" resultType="java.util.Map">
+    SELECT b.phone,b.real_name,u.create_time FROM `profit_agent` pa
+      LEFT JOIN `order` o ON pa.user_id = o.user_id
+      LEFT JOIN `user` u ON u.id = pa.user_id
+      LEFT JOIN user_base_info b ON b.user_id = pa.user_id
+      LEFT JOIN order_detail od ON o.id = od.order_id
+      LEFT JOIN goods g ON od.goods_id = g.id WHERE  pa.use_state = 1 AND pa.leader_id = #{userId,jdbcType = BIGINT} AND g.id = #{goodsId,jdbcType = BIGINT};
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from profit_agent
     where id = #{id,jdbcType=BIGINT}
