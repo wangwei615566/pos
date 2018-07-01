@@ -47,7 +47,12 @@
       <if test="remark != null" >
         AND remark = #{remark,jdbcType=VARCHAR}
       </if>
-
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
     </trim>
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -57,11 +62,11 @@
     where id = #{id,jdbcType=BIGINT}
   </select>
   <select id="findSelective" parameterType="java.util.Map" resultMap="BaseResultMap">
-  select
-  <include refid="Base_Column_List" />
-  from `order`
-  <include refid="searchBy"/>
-</select>
+    select
+    <include refid="Base_Column_List" />
+    from `order`
+    <include refid="searchBy"/>
+  </select>
   <select id="listSelective" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
