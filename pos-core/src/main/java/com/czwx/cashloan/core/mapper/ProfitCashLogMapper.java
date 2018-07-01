@@ -1,7 +1,11 @@
 package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.ProfitCashLog;
+import com.rongdu.cashloan.core.common.mapper.RDBatisDao;
 
+import java.util.List;
+
+@RDBatisDao
 public interface ProfitCashLogMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +18,6 @@ public interface ProfitCashLogMapper {
     int updateByPrimaryKeySelective(ProfitCashLog record);
 
     int updateByPrimaryKey(ProfitCashLog record);
+
+    List<ProfitCashLog> listToUserId(Long userId);
 }

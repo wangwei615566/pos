@@ -1,7 +1,10 @@
 package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.ProfitAmount;
+import com.rongdu.cashloan.core.common.mapper.RDBatisDao;
 
+import java.util.Map;
+@RDBatisDao
 public interface ProfitAmountMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +17,8 @@ public interface ProfitAmountMapper {
     int updateByPrimaryKeySelective(ProfitAmount record);
 
     int updateByPrimaryKey(ProfitAmount record);
+
+    ProfitAmount findToUser(Long id);
+
+    ProfitAmount findSelect(Map<String,Object> param);
 }

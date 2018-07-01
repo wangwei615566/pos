@@ -1,5 +1,7 @@
 package com.pos.api.controller;
 
+import com.czwx.cashloan.core.model.ProfitAmount;
+import com.czwx.cashloan.core.model.ProfitCashLog;
 import com.rongdu.cashloan.core.common.context.Constant;
 import com.rongdu.cashloan.core.common.util.ServletUtils;
 import com.rongdu.cashloan.core.common.web.controller.BaseController;
@@ -54,6 +56,56 @@ public class ProfitController extends BaseController{
     @RequestMapping("api/profit/create/goodsList.htm")
     public void goodsList(@RequestParam(value = "userId")Long userId) {
         List<Map<String, Object>> data = profitService.goodsDetaiUser(userId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        result.put(Constant.RESPONSE_DATA, data);
+        result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
+        ServletUtils.writeToResponse(response, result);
+    }
+
+    /**
+     * 申请提现接口
+     * @param userId
+     */
+    @RequestMapping("api/profit/apply/get/amount.htm")
+    public void applyGetAmount(@RequestParam(value = "userId")long userId) {
+        ProfitAmount data = profitService.findToUser(userId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        result.put(Constant.RESPONSE_DATA, data);
+        result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
+        ServletUtils.writeToResponse(response, result);
+    }
+
+    /**
+     * 提现接口
+     * @param userId
+     */
+    @RequestMapping("api/profit/get/amount.htm")
+    public void getAmount(@RequestParam(value = "id")Long id,
+                          @RequestParam(value = "userId")Long userId,
+                          @RequestParam(value = "alipayNo")String alipayNo,
+                          @RequestParam(value = "realName")String realName,
+                          @RequestParam(value = "amount")double amount) {
+        int i = profitService.getAmount(id,userId,alipayNo,realName,amount);
+        Map<String, Object> result = new HashMap<String, Object>();
+        if (i>0){
+            result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+            result.put(Constant.RESPONSE_CODE_MSG, "支付成功");
+        }else {
+            result.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+            result.put(Constant.RESPONSE_CODE_MSG, "支付失败");
+        }
+        ServletUtils.writeToResponse(response, result);
+    }
+
+    /**
+     * 提现记录
+     * @param userId
+     */
+    @RequestMapping("api/profit/profitCashLog/list.htm")
+    public void profitCashLogList(@RequestParam(value = "userId")Long userId) {
+        List<ProfitCashLog> data = profitService.findProfitCashLog(userId);
         Map<String, Object> result = new HashMap<String, Object>();
         result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
         result.put(Constant.RESPONSE_DATA, data);
