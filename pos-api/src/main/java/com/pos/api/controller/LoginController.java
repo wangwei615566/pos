@@ -248,15 +248,23 @@ public class LoginController {
 		};
 	}
 
-
+	/**
+	 * 修改密码接口(pos-新)
+	 * @param request
+	 * @param response
+	 * @param phone
+	 * @param newPwd
+	 * @param vcode
+	 * @param signMsg
+	 */
 	@RequestMapping("login/forgetPwd.htm")
 	public void forgetPwd(final HttpServletRequest request,
-			HttpServletResponse response, final String phone,
-			final String newPwd, final String vcode, final String signMsg) {
+			HttpServletResponse response, final String oldPwd,
+			final String newPwd, final String newPwd2,final Long userId) {
 		new AppAbsActionWrapper(response) {
 			@Override
 			public Object doAction() {
-				return userService.forgetPwd(phone, newPwd, vcode, signMsg);
+				return userService.forgetPwd(oldPwd, newPwd, newPwd2,userId);
 			}
 		};
 	}

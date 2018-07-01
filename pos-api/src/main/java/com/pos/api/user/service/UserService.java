@@ -10,6 +10,8 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.czwx.cashloan.core.mapper.UserMapper;
+import com.czwx.cashloan.core.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,8 @@ public class UserService {
     @Resource
     protected SmsService smsService;
 
+    @Resource
+    private UserMapper userMapper;
 
 
 
@@ -243,24 +247,18 @@ public class UserService {
     }
 
 
-    public Object forgetPwd(String phone, String newPwd, String vcode,String signMsg) {
+    public Object forgetPwd(String oldPwd, String newPwd, String newPwd2,Long userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null || !newPwd.equals(newPwd2)) {
+            Map ret = new LinkedHashMap();
+            ret.put("success", false);
+            ret.put("msg", "用户不存在或两次密码不一致");
+            return ret;
+        }
+        user.setLoginPwd(newPwd);
+        int i = userMapper.updateByPrimaryKeySelective(user);
 
-            if (!StringUtil.isEmpty(vcode)) {
-                String msg = smsService.validateSmsCode(phone, SmsModel.SMS_TYPE_FINDREG , vcode);
-                if (msg != null) {
-                    Map ret = new LinkedHashMap();
-                    ret.put("success", false);
-                    ret.put("msg", msg);
-                    return ret;
-                }
-            }
-
-
-            if (dbService.update(SqlUtil.buildUpdateSql("cl_user", MapUtil.array2Map(new Object[][]{
-                {"login_name", phone},
-                {"login_pwd", newPwd},
-                {"loginpwd_modify_time", new Date()}
-            }), "login_name")) == 1) {
+        if (i>0) {
                 Map ret = new LinkedHashMap();
                 ret.put("success", true);
                 ret.put("msg", "密码已修改");
