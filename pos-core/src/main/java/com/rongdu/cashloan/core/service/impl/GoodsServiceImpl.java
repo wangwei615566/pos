@@ -3,7 +3,10 @@ package com.rongdu.cashloan.core.service.impl;
 import com.czwx.cashloan.core.mapper.GoodsMapper;
 import com.czwx.cashloan.core.mapper.UserMapper;
 import com.czwx.cashloan.core.model.Goods;
+import com.czwx.cashloan.core.model.Order;
 import com.czwx.cashloan.core.model.User;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.rongdu.cashloan.core.service.GoodsService;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +43,27 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public List<Goods> listSelect(Map<String, Object> param) {
         return goodsMapper.listSelect(param);
+    }
+
+    @Override
+    public Page<Goods> pageList(Map<String, Object> param, int current, int pageSize) {
+        PageHelper.startPage(current, pageSize);
+        List<Goods> goodsList = goodsMapper.listSelect(param);
+        return (Page<Goods>) goodsList;
+    }
+
+    @Override
+    public Goods selectByPrimaryKey(Long goodsId) {
+        return goodsMapper.selectByPrimaryKey(goodsId);
+    }
+
+    @Override
+    public int updateBySelect(Map<String, Object> param) {
+        return goodsMapper.updateBySelect(param);
+    }
+
+    @Override
+    public int insertSelective(Map<String, Object> param) {
+        return goodsMapper.insertSelective(param);
     }
 }

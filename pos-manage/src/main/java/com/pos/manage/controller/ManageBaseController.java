@@ -487,5 +487,21 @@ public abstract class ManageBaseController extends AbstractController {
 		}
 		return params;
 	}
+
+	/**
+	 * 保存时候公共返回值
+	 * @return
+	 */
+	public Map<String,Object> saveUpdateCommon(int code,String errorMessage,String successMessage){
+		Map<String,Object> result = new HashMap<>();
+		if(code < 1){
+			result.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
+			result.put(Constant.RESPONSE_CODE_MSG, errorMessage);
+		} else {
+			result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+			result.put(Constant.RESPONSE_CODE_MSG, successMessage);
+		}
+		return result;
+	}
 	
 }
