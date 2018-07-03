@@ -19,6 +19,8 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
+    int updateBySelect(Map<String,Object> param);
+
     Order findSelective(Map<String,Object> param);
 
     List<Order> listSelective(Map<String,Object> param);

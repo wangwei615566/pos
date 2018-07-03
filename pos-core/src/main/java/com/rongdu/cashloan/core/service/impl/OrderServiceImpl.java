@@ -8,6 +8,8 @@ import com.czwx.cashloan.core.model.Goods;
 import com.czwx.cashloan.core.model.Order;
 import com.czwx.cashloan.core.model.OrderDetail;
 import com.czwx.cashloan.core.model.User;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.rongdu.cashloan.core.common.exception.BussinessException;
 import com.rongdu.cashloan.core.service.OrderService;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,17 @@ public class OrderServiceImpl implements OrderService {
         orderDetail.setUpdateTime(date);
         orderDetailMapper.insertSelective(orderDetail);
         return order;
+    }
+
+    @Override
+    public Order selectByPrimaryKey(Long orderId) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        return order;
+    }
+
+    @Override
+    public int updateBySelect(Map<String,Object> map) {
+        return orderMapper.updateBySelect(map);
     }
 
     /**
@@ -99,6 +112,13 @@ public class OrderServiceImpl implements OrderService {
             d.setGoods(goods);
         }
         return orderDetails;
+    }
+
+    @Override
+    public Page<Order> pageList(Map<String, Object> param, int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        List<Order> orderList = orderMapper.listSelective(param);
+        return (Page<Order>) orderList;
     }
 
     /**
