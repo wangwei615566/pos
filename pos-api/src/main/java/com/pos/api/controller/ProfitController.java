@@ -112,4 +112,18 @@ public class ProfitController extends BaseController{
         result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
         ServletUtils.writeToResponse(response, result);
     }
+
+    /**
+     * 今日及上个月收益统计
+     * @param userId
+     */
+    @RequestMapping("api/profit/todayAndLastMont/amount/total.htm")
+    public void todayAndLastMonthProFitTotal(@RequestParam(value = "userId")Long userId) {
+        Map<String, Object> data = profitService.findIndex(userId);
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
+        result.put(Constant.RESPONSE_DATA, data);
+        result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
+        ServletUtils.writeToResponse(response, result);
+    }
 }

@@ -39,6 +39,9 @@
     from profit_log
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="fitAmountToTime" parameterType="java.util.Map" resultType="java.lang.Double">
+    SELECT SUM(amount) FROM profit_log WHERE agent_id = #{userId,jdbcType=BIGINT} AND create_time &gt;= #{startTime,jdbcType=TIMESTAMP} AND create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from profit_log
     where id = #{id,jdbcType=BIGINT}

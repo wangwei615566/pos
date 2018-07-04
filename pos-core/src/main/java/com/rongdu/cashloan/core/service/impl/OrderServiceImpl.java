@@ -147,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
             }else {
                 profitA.setTotal(profitA.getTotal().add(amount));
                 profitA.setCanCashed(profitA.getCanCashed().add(amount));
+                profitA.setUpdateTime(date);
                 profitAmountMapper.updateByPrimaryKeySelective(profitA);
             }
 

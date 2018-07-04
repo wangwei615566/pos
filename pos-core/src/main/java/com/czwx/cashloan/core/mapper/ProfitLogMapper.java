@@ -22,4 +22,6 @@ public interface ProfitLogMapper {
     int updateByPrimaryKeySelective(ProfitLog record);
 
     int updateByPrimaryKey(ProfitLog record);
+
+    Double fitAmountToTime(Map<String,Object> map);
 }

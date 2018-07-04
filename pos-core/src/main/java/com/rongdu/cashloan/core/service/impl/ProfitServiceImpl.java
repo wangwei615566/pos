@@ -3,6 +3,7 @@ package com.rongdu.cashloan.core.service.impl;
 import com.czwx.cashloan.core.mapper.ProfitAgentMapper;
 import com.czwx.cashloan.core.mapper.ProfitAmountMapper;
 import com.czwx.cashloan.core.mapper.ProfitCashLogMapper;
+import com.czwx.cashloan.core.mapper.ProfitLogMapper;
 import com.czwx.cashloan.core.model.ProfitAmount;
 import com.czwx.cashloan.core.model.ProfitCashLog;
 import com.rongdu.cashloan.core.service.ProfitService;
@@ -10,10 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service("profitService")
 public class ProfitServiceImpl implements ProfitService{
@@ -23,6 +22,8 @@ public class ProfitServiceImpl implements ProfitService{
     private ProfitAmountMapper profitAmountMapper;
     @Resource
     private ProfitCashLogMapper profitCashLogMapper;
+    @Resource
+    private ProfitLogMapper profitLogMapper;
 
     /**
      * 推广数及代理数
@@ -92,5 +93,38 @@ public class ProfitServiceImpl implements ProfitService{
     @Override
     public List<ProfitCashLog> findProfitCashLog(Long userId) {
         return profitCashLogMapper.listToUserId(userId);
+    }
+
+    @Override
+    public Map<String, Object> findIndex(Long userId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("userId",userId);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date startTime = c.getTime();
+        c.set(Calendar.HOUR_OF_DAY,23);
+        c.set(Calendar.MINUTE,59);
+        c.set(Calendar.SECOND,59);
+        Date endTime = c.getTime();
+        param.put("startTime",startTime);//获取今天的0点到23点59分59秒
+        param.put("endTime",endTime);
+        Double todayAmount = profitLogMapper.fitAmountToTime(param);
+        c.set(Calendar.DAY_OF_MONTH,1);
+        c.add(Calendar.DAY_OF_MONTH,-1);
+        Date endTimeMonth = c.getTime();
+        c.set(Calendar.DAY_OF_MONTH,1);
+        c.set(Calendar.HOUR_OF_DAY,0);
+        c.set(Calendar.MINUTE,0);
+        c.set(Calendar.SECOND,0);
+        Date startTimeMonth = c.getTime();
+        param.put("startTime",startTimeMonth);//获取上个月的0点到上个月最后一天的23点59分59秒
+        param.put("endTime",endTimeMonth);
+        Double monthAmount = profitLogMapper.fitAmountToTime(param);
+        Map<String, Object> result = new HashMap<>();
+        result.put("todayAmount",todayAmount);
+        result.put("lastMonthAmount",monthAmount);
+        return result;
     }
 }

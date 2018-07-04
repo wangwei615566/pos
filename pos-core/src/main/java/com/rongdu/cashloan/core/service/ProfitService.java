@@ -19,4 +19,6 @@ public interface ProfitService {
     int getAmount(long id,long userId,String alipayNo,String realName,double amount);
 
     List<ProfitCashLog> findProfitCashLog(Long userId);
+
+    Map<String,Object> findIndex(Long userId);
 }
