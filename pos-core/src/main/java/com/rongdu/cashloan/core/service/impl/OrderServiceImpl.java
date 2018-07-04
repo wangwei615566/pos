@@ -1,13 +1,7 @@
 package com.rongdu.cashloan.core.service.impl;
 
-import com.czwx.cashloan.core.mapper.GoodsMapper;
-import com.czwx.cashloan.core.mapper.OrderDetailMapper;
-import com.czwx.cashloan.core.mapper.OrderMapper;
-import com.czwx.cashloan.core.mapper.UserMapper;
-import com.czwx.cashloan.core.model.Goods;
-import com.czwx.cashloan.core.model.Order;
-import com.czwx.cashloan.core.model.OrderDetail;
-import com.czwx.cashloan.core.model.User;
+import com.czwx.cashloan.core.mapper.*;
+import com.czwx.cashloan.core.model.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.rongdu.cashloan.core.common.exception.BussinessException;
@@ -15,6 +9,7 @@ import com.rongdu.cashloan.core.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service("orderService")
@@ -28,6 +23,14 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Resource
     private OrderDetailMapper orderDetailMapper;
+    @Resource
+    private ProfitAgentMapper profitAgentMapper;
+    @Resource
+    private UserInviteMapper userInviteMapper;
+    @Resource
+    private ProfitLogMapper profitLogMapper;
+    @Resource
+    private ProfitAmountMapper profitAmountMapper;
     @Override
     public Order createOrderMember(Long userId,Long goodsId) {
         Date date = new Date();
@@ -77,19 +80,100 @@ public class OrderServiceImpl implements OrderService {
         paramOrder.put("userId",userId);
         paramOrder.put("orderNo",orderNo);
         Order order = orderMapper.findSelective(paramOrder);
+        long levelId = (long)param.get("levelId");
+        User user = userMapper.selectByPrimaryKey(userId);
         if (order!=null && order.getState() !=1){
             throw  new BussinessException("订单不存在或状态有误");
         }
         //支付
 
+        boolean state = true;
+        if (state){//支付成功
+            order.setState((byte)4);
+            user.setLevelId(levelId);
+            return tradeSuc(order,user);
+        }else {
+            order.setState((byte)0);
+            return tradeFail(order);
+        }
 
-        order.setState((byte)4);
+    }
+
+    /**
+     * 支付成功处理
+     * @param order
+     * @param user
+     * @return
+     */
+    private boolean tradeSuc(Order order,User user){
         int i = orderMapper.updateByPrimaryKey(order);
-        long levelId = (long)param.get("levelId");
-        User user = userMapper.selectByPrimaryKey(userId);
-        user.setLevelId(levelId);
         int j = userMapper.updateByPrimaryKeySelective(user);
+        Date date = new Date();
+
+        ProfitAgent profitAgent = new ProfitAgent();
+        UserInvite userInvite = userInviteMapper.selectByUserId(user.getId());
+        if (userInvite !=null){//有邀请记录
+            Long userId = userInvite.getUserId();//分润人id
+            profitAgent.setLeaderId(userId);
+
+            Map<String, Object> levelRate = userMapper.findLevelToUserId(userId);
+            BigDecimal rate = new BigDecimal(levelRate.get("rate").toString());
+
+            //回写分润记录表
+            double profitAmount = orderMapper.profitAmount(order.getId());//推广总费用查询
+            BigDecimal amount = rate.multiply(new BigDecimal(profitAmount));//分润资金
+            ProfitLog profitLog = new ProfitLog();
+            profitLog.setOrderId(order.getId());
+            profitLog.setAgentId(userId);
+            profitLog.setUserId(user.getId());
+            profitLog.setAmount(amount);
+            profitLog.setRate(rate);
+            profitLog.setCreateTime(date);
+            profitLogMapper.insertSelective(profitLog);
+            //回写分润资金表
+            Map<String, Object> param = new HashMap<>();
+            param.put("user_id",userId);
+            ProfitAmount profitA = profitAmountMapper.findSelect(param);
+            if (profitA == null){
+                profitA = new ProfitAmount();
+                profitA.setUserId(userId);
+                profitA.setTotal(amount);
+                profitA.setCanCashed(amount);
+                profitA.setCashed(new BigDecimal(0));
+                profitA.setFrozen(new BigDecimal(0));
+                profitA.setCreateTime(date);
+                profitA.setUpdateTime(date);
+                profitAmountMapper.insert(profitA);
+            }else {
+                profitA.setTotal(profitA.getTotal().add(amount));
+                profitA.setCanCashed(profitA.getCanCashed().add(amount));
+                profitAmountMapper.updateByPrimaryKeySelective(profitA);
+            }
+
+        }
+            //回写用户会员信息表
+        profitAgent.setUserId(user.getId());
+        profitAgent.setLevelId(user.getLevelId());
+        profitAgent.setUseState((byte)1);
+        profitAgent.setCreateTime(date);
+        profitAgent.setUpdateTime(date);
+        profitAgentMapper.insert(profitAgent);
+
         if (i>0 && j>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 支付失败处理
+     * @param order
+     * @return
+     */
+    private boolean tradeFail(Order order){
+        int i = orderMapper.updateByPrimaryKey(order);
+        if (i>0){
             return true;
         }else {
             return false;

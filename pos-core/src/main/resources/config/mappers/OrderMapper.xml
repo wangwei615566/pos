@@ -67,6 +67,9 @@
     from `order`
     <include refid="searchBy"/>
   </select>
+  <select id="profitAmount" parameterType="java.lang.Long" resultType="java.lang.Double">
+    SELECT SUM(g.profit_amount*d.goods_num) FROM `order` o LEFT JOIN order_detail d ON o.id = d.order_id LEFT JOIN goods g ON d.goods_id = g.id WHERE o.id = #{orderId,jdbcType=BIGINT}
+  </select>
   <select id="listSelective" parameterType="java.util.Map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

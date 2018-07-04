@@ -11,6 +11,8 @@ public interface UserInviteMapper {
 
     UserInvite selectByPrimaryKey(Long id);
 
+    UserInvite selectByUserId(Long id);
+
     int updateByPrimaryKeySelective(UserInvite record);
 
     int updateByPrimaryKey(UserInvite record);

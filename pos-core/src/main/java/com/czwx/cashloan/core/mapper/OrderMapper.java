@@ -24,4 +24,11 @@ public interface OrderMapper {
     Order findSelective(Map<String,Object> param);
 
     List<Order> listSelective(Map<String,Object> param);
+
+    /**
+     * 该订单的推广总费用（计算前）
+     * @param orderId
+     * @return
+     */
+    double profitAmount(Long orderId);
 }
