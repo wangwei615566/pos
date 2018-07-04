@@ -11,11 +11,21 @@ public class OrderDetail {
 
     private Integer goodsNum;
 
+    private String code;
+
     private Date updateTime;
 
     private Date createTime;
 
     private Goods goods;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public Goods getGoods() {
         return goods;

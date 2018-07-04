@@ -6,11 +6,12 @@
     <result column="order_id" property="orderId" jdbcType="BIGINT" />
     <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_id, goods_id, goods_num, update_time, create_time
+    id, order_id, goods_id, goods_num, update_time, create_time,code
   </sql>
   <sql id="searchBy">
     <trim prefixOverrides="and|or" prefix="where">
@@ -28,6 +29,9 @@
       </if>
       <if test="goodsNum != null" >
         AND goods_num = #{goodsNum,jdbcType=INTEGER}
+      </if>
+      <if test="code != null" >
+        AND code = #{code,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -109,6 +113,9 @@
       </if>
       <if test="goodsNum != null" >
         goods_num = #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
