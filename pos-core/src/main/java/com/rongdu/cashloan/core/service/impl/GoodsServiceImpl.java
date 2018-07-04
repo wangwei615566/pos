@@ -3,7 +3,6 @@ package com.rongdu.cashloan.core.service.impl;
 import com.czwx.cashloan.core.mapper.GoodsMapper;
 import com.czwx.cashloan.core.mapper.UserMapper;
 import com.czwx.cashloan.core.model.Goods;
-import com.czwx.cashloan.core.model.Order;
 import com.czwx.cashloan.core.model.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -21,6 +20,7 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
     @Resource
     private UserMapper userMapper;
+
     @Override
     public List<Goods> listMember(Long userId) {
         Map<String, Object> param = new HashMap<>();

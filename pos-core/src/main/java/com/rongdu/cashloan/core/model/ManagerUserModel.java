@@ -1,8 +1,9 @@
 package com.rongdu.cashloan.core.model;
 
+import com.czwx.cashloan.core.model.UserBaseInfo;
+
 import java.util.Date;
 
-import com.rongdu.cashloan.core.domain.UserBaseInfo;
 
 public class ManagerUserModel extends UserBaseInfo {
 

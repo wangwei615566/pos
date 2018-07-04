@@ -15,6 +15,28 @@
   <sql id="Base_Column_List" >
     id, user_id, account_id, cash_way, account_no, account_name, amount, fee, create_time
   </sql>
+  <sql id="searchBy">
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="accountId != null" >
+        and account_id = #{accountId,jdbcType=BIGINT}
+      </if>
+      <if test="cashWay != null" >
+        and cash_way = #{cashWay,jdbcType=TINYINT}
+      </if>
+      <if test="accountNo != null" >
+        and account_no = #{accountNo,jdbcType=VARCHAR}
+      </if>
+      <if test="accountName != null" >
+        and account_name = #{accountName,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -26,6 +48,13 @@
     <include refid="Base_Column_List" />
     from profit_cash_log
     where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from profit_cash_log
+    <include refid="searchBy" />
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from profit_cash_log

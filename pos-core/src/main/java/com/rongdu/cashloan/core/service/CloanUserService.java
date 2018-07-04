@@ -1,12 +1,12 @@
 package com.rongdu.cashloan.core.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.czwx.cashloan.core.model.User;
 import com.github.pagehelper.Page;
 import com.rongdu.cashloan.core.common.service.BaseService;
-import com.czwx.cashloan.core.model.User;
 import com.rongdu.cashloan.core.model.CloanUserModel;
+
+import java.util.List;
+import java.util.Map;
 
 
 public interface CloanUserService extends BaseService<User, Long>{
@@ -17,7 +17,7 @@ public interface CloanUserService extends BaseService<User, Long>{
 	 * @param pageSize
 	 * @return
 	 */
-	Page<CloanUserModel> listUser(Map<String, Object> params, int currentPage,
+	Page<User> listUser(Map<String, Object> params, int currentPage,
 			int pageSize);
 	
 	/**

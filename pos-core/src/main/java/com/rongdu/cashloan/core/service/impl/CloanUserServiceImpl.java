@@ -1,10 +1,10 @@
 package com.rongdu.cashloan.core.service.impl;
 
 
-
 import com.czwx.cashloan.core.mapper.UserMapper;
 import com.czwx.cashloan.core.model.User;
 import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.rongdu.cashloan.core.common.mapper.BaseMapper;
 import com.rongdu.cashloan.core.common.service.impl.BaseServiceImpl;
 import com.rongdu.cashloan.core.model.CloanUserModel;
@@ -28,8 +28,10 @@ public class CloanUserServiceImpl extends BaseServiceImpl<User, Long> implements
 
 
 	@Override
-	public Page<CloanUserModel> listUser(Map<String, Object> params, int currentPage, int pageSize) {
-		return null;
+	public Page<User> listUser(Map<String, Object> params, int currentPage, int pageSize) {
+		PageHelper.startPage(currentPage, pageSize);
+		List<User> users = userMapper.listSelective(params);
+		return (Page<User>) users;
 	}
 
 	@Override

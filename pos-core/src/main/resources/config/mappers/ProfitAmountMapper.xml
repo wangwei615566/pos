@@ -55,7 +55,7 @@
     from profit_amount
     where user_id = #{userId,jdbcType=BIGINT}
   </select>
-  <select id="findSelect" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
     select
     <include refid="Base_Column_List" />
     from profit_amount

@@ -2,7 +2,7 @@ package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.User;
 import com.rongdu.cashloan.core.common.mapper.RDBatisDao;
-
+import java.util.List;
 import java.util.Map;
 
 @RDBatisDao
@@ -20,4 +20,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User findSelective(Map<String,Object> param);
+
+    List<User> listSelective(Map<String,Object> param);
 }

@@ -489,7 +489,7 @@ public abstract class ManageBaseController extends AbstractController {
 	}
 
 	/**
-	 * 保存时候公共返回值
+	 * 新增、保存时候公共返回值
 	 * @return
 	 */
 	public Map<String,Object> saveUpdateCommon(int code,String errorMessage,String successMessage){

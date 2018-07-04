@@ -14,6 +14,25 @@
   <sql id="Base_Column_List" >
     id, order_id, user_id, agent_id, amount, rate, remark, create_time
   </sql>
+  <sql id="searchBy">
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="orderId != null" >
+        and order_id = #{orderId,jdbcType=BIGINT}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=BIGINT}
+      </if>
+      <if test="agentId != null" >
+        and agent_id = #{agentId,jdbcType=BIGINT}
+      </if>
+      <if test="rate != null" >
+        and rate = #{rate,jdbcType=DECIMAL}
+      </if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -125,4 +144,11 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from profit_log
+    <include refid="searchBy" />
+  </select>
 </mapper>

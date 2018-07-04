@@ -1,6 +1,6 @@
 package com.rongdu.cashloan.core.model;
 
-import com.rongdu.cashloan.core.domain.UserBaseInfo;
+import com.czwx.cashloan.core.model.UserBaseInfo;
 
 public class UserWorkInfoModel extends UserBaseInfo {
 
