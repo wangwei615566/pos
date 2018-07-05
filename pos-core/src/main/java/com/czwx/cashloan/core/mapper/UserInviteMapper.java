@@ -1,7 +1,9 @@
 package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.UserInvite;
+import com.rongdu.cashloan.core.common.mapper.RDBatisDao;
 
+@RDBatisDao
 public interface UserInviteMapper {
     int deleteByPrimaryKey(Long id);
 
