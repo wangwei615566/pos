@@ -67,6 +67,12 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.updateBySelect(map);
     }
 
+    @Override
+    public int updateOrderDetail(OrderDetail orderDetail) {
+
+        return orderDetailMapper.updateByPrimaryKeySelective(orderDetail);
+    }
+
     /**
      * 支付会员费接口
      * @param param

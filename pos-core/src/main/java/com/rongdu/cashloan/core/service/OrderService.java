@@ -21,4 +21,6 @@ public interface OrderService {
     Page<Order> pageList(Map<String,Object> param, int page, int pageSize);
 
     int updateBySelect(Map<String,Object> map);
+
+    int updateOrderDetail(OrderDetail orderDetail);
 }
