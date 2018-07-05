@@ -15,9 +15,19 @@ public class Consult {
 
     private String type;
 
+    private String topState;
+
     private Date createTime;
 
     private Date updateTime;
+
+    public String getTopState() {
+        return topState;
+    }
+
+    public void setTopState(String topState) {
+        this.topState = topState;
+    }
 
     public Long getId() {
         return id;
