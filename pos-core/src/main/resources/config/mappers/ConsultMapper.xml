@@ -14,11 +14,45 @@
   <sql id="Base_Column_List" >
     id, consult_img, consult_url, consult_detail, state, type, create_time, update_time
   </sql>
+  <sql id="searchBy">
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="consultImg != null" >
+        and consult_img = #{consultImg,jdbcType=VARCHAR}
+      </if>
+      <if test="consultUrl != null" >
+        and consult_url = #{consultUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="consultDetail != null" >
+        and consult_detail = #{consultDetail,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null" >
+        and state = #{state,jdbcType=VARCHAR}
+      </if>
+      <if test="type != null" >
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from consult
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listSelect" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from consult
+    <include refid="searchBy"/>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from consult

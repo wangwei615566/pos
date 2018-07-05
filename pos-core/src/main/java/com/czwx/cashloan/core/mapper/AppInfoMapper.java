@@ -1,7 +1,9 @@
 package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.AppInfo;
+import com.rongdu.cashloan.core.common.mapper.RDBatisDao;
 
+@RDBatisDao
 public interface AppInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
