@@ -1,6 +1,7 @@
 package com.rongdu.cashloan.core.service;
 
 import com.czwx.cashloan.core.model.Goods;
+import com.czwx.cashloan.core.model.GoodsDetail;
 import com.github.pagehelper.Page;
 
 import java.util.List;
@@ -19,4 +20,8 @@ public interface GoodsService {
     int updateBySelect(Map<String,Object> param);
 
     int insertSelective(Map<String,Object> param);
+
+    List<Goods> listGoods(String type,Long userId);
+
+    List<GoodsDetail> listGoodsDetail(Map<String,Object> param);
 }

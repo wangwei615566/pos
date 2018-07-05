@@ -1,15 +1,19 @@
 package com.rongdu.cashloan.core.service.impl;
 
+import com.czwx.cashloan.core.mapper.GoodsDetailMapper;
 import com.czwx.cashloan.core.mapper.GoodsMapper;
 import com.czwx.cashloan.core.mapper.UserMapper;
 import com.czwx.cashloan.core.model.Goods;
+import com.czwx.cashloan.core.model.GoodsDetail;
 import com.czwx.cashloan.core.model.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.rongdu.cashloan.core.service.GoodsService;
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +24,8 @@ public class GoodsServiceImpl implements GoodsService {
     private GoodsMapper goodsMapper;
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private GoodsDetailMapper goodsDetailMapper;
 
     @Override
     public List<Goods> listMember(Long userId) {
@@ -65,5 +71,24 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public int insertSelective(Map<String, Object> param) {
         return goodsMapper.insertSelective(param);
+    }
+
+    @Override
+    public List<Goods> listGoods(String type,Long userId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("type",type);
+        List<Goods> goods = goodsMapper.listSelect(param);
+        Map<String, Object> levels = userMapper.findLevelToUserId(userId);
+        Double rate = (double)levels.get("rate");
+        for (Goods g:goods
+             ) {
+            g.setProfitAmount(g.getProfitAmount().multiply(new BigDecimal(rate)));
+        }
+        return goods;
+    }
+
+    @Override
+    public List<GoodsDetail> listGoodsDetail(Map<String,Object> param) {
+        return goodsDetailMapper.listSelect(param);
     }
 }

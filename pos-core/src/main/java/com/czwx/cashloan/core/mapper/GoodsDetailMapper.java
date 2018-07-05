@@ -2,6 +2,9 @@ package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.GoodsDetail;
 
+import java.util.List;
+import java.util.Map;
+
 public interface GoodsDetailMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -16,4 +19,6 @@ public interface GoodsDetailMapper {
     int updateByPrimaryKeyWithBLOBs(GoodsDetail record);
 
     int updateByPrimaryKey(GoodsDetail record);
+
+    List<GoodsDetail>listSelect(Map<String,Object> map);
 }

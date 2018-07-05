@@ -7,7 +7,7 @@ public class Banner {
 
     private String bannerImg;
 
-    private String url;
+    private String bannerUrl;
 
     private String state;
 
@@ -16,6 +16,14 @@ public class Banner {
     private Date createTime;
 
     private Date updateTime;
+
+    public String getBannerUrl() {
+        return bannerUrl;
+    }
+
+    public void setBannerUrl(String bannerUrl) {
+        this.bannerUrl = bannerUrl;
+    }
 
     public Long getId() {
         return id;
@@ -31,14 +39,6 @@ public class Banner {
 
     public void setBannerImg(String bannerImg) {
         this.bannerImg = bannerImg == null ? null : bannerImg.trim();
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url == null ? null : url.trim();
     }
 
     public String getState() {

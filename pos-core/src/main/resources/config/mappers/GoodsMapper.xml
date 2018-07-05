@@ -18,8 +18,8 @@
   <sql id="searchBy">
     <trim prefix="where" prefixOverrides="and|or">
       <if test="id != null" >
-        id = #{id,jdbcType=BIGINT}
-      </if>
+      id = #{id,jdbcType=BIGINT}
+    </if>
       <if test="name != null" >
         and name = #{name,jdbcType=VARCHAR}
       </if>

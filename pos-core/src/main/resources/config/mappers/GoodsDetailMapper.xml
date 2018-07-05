@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="detail_type" property="detailType" jdbcType="TINYINT" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -12,10 +13,32 @@
     <result column="description" property="description" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_id, detail_type, update_time, create_time
+    id, goods_id, detail_type, description, update_time, create_time
   </sql>
   <sql id="Blob_Column_List" >
     description
+  </sql>
+  <sql id="searchBy">
+    <trim prefix="where" prefixOverrides="and|or">
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT}
+      </if>
+      <if test="goodsId != null" >
+        and goods_id = #{goodsId,jdbcType=BIGINT}
+      </if>
+      <if test="detailType != null" >
+        and detail_type = #{detailType,jdbcType=TINYINT}
+      </if>
+      <if test="description != null" >
+        and description = #{description,jdbcType=VARCHAR}
+      </if>
+      <if test="updateTime != null" >
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
@@ -24,6 +47,12 @@
     <include refid="Blob_Column_List" />
     from goods_detail
     where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="listSelect" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from goods_detail
+    <include refid="searchBy" />
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from goods_detail
@@ -49,6 +78,9 @@
       <if test="detailType != null" >
         detail_type,
       </if>
+      <if test="description != null" >
+        description,
+      </if>
       <if test="updateTime != null" >
         update_time,
       </if>
@@ -69,14 +101,17 @@
       <if test="detailType != null" >
         #{detailType,jdbcType=TINYINT},
       </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="description != null" >
-        #{description,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -88,6 +123,9 @@
       </if>
       <if test="detailType != null" >
         detail_type = #{detailType,jdbcType=TINYINT},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -105,6 +143,7 @@
     update goods_detail
     set goods_id = #{goodsId,jdbcType=BIGINT},
       detail_type = #{detailType,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       description = #{description,jdbcType=LONGVARCHAR}
@@ -114,6 +153,7 @@
     update goods_detail
     set goods_id = #{goodsId,jdbcType=BIGINT},
       detail_type = #{detailType,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
