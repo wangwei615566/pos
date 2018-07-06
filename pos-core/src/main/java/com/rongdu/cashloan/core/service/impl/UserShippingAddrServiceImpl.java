@@ -47,4 +47,9 @@ public class UserShippingAddrServiceImpl implements UserShippingAddrService {
     public int deleteByPrimaryKey(Long id) {
         return userShippingAddrMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public UserShippingAddr findDefaultToUserId(Long userId) {
+        return userShippingAddrMapper.findDefaultToUserId(userId);
+    }
 }

@@ -22,4 +22,6 @@ public interface UserShippingAddrMapper {
     UserShippingAddr findSelective(Map<String,Object> param);
 
     List<UserShippingAddr> listSelective(Map<String,Object> param);
+
+    UserShippingAddr findDefaultToUserId(Long userId);
 }

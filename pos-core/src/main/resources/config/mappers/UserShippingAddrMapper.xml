@@ -64,6 +64,12 @@
     from user_shipping_addr
     <include refid="searchBy"/>
   </select>
+  <select id="findDefaultToUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_shipping_addr
+    WHERE state = 1 AND user_id = #{userId,jdbcType = BIGINT}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from user_shipping_addr
     where id = #{id,jdbcType=BIGINT}
