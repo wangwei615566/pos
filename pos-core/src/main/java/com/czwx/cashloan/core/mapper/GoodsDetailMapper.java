@@ -1,10 +1,11 @@
 package com.czwx.cashloan.core.mapper;
 
 import com.czwx.cashloan.core.model.GoodsDetail;
+import com.rongdu.cashloan.core.common.mapper.RDBatisDao;
 
 import java.util.List;
 import java.util.Map;
-
+@RDBatisDao
 public interface GoodsDetailMapper {
     int deleteByPrimaryKey(Long id);
 

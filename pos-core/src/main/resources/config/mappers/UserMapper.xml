@@ -80,7 +80,7 @@
         from user
         <include refid="searchBy"/>
     </select>
-     <select id="findLevelToUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+     <select id="findLevelToUserId" resultType="java.util.Map" parameterType="java.lang.Long">
         SELECT l.rate,l.second_rate FROM `user` u LEFT JOIN profit_level l ON u.level_id = l.id WHERE u.id = #{userId,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >

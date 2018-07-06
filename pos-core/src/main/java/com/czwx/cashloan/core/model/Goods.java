@@ -23,7 +23,7 @@ public class Goods {
     private Date createTime;
 
     /**
-     * 是否已购买该商品
+     * 是否已购买该商品(主要针对会员商品)
      */
     private boolean flag;
 

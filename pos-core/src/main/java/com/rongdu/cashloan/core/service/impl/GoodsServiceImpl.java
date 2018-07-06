@@ -79,10 +79,10 @@ public class GoodsServiceImpl implements GoodsService {
         param.put("type",type);
         List<Goods> goods = goodsMapper.listSelect(param);
         Map<String, Object> levels = userMapper.findLevelToUserId(userId);
-        Double rate = (double)levels.get("rate");
+        BigDecimal rate = (BigDecimal) levels.get("rate");
         for (Goods g:goods
              ) {
-            g.setProfitAmount(g.getProfitAmount().multiply(new BigDecimal(rate)));
+            g.setProfitAmount(g.getProfitAmount().multiply(rate));
         }
         return goods;
     }
