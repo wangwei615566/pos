@@ -87,38 +87,4 @@ public class MemberController extends BaseController{
         result.put(Constant.RESPONSE_CODE_MSG, "获取成功");
         ServletUtils.writeToResponse(response, result);
     }
-
-    /**
-     * 支付接口(会员费支付)
-     * @param userId 用户ID
-     * @param orderNo 订单号
-     * @param  levelId 会员id
-     * @param amount 支付金额
-     * @param payMethod 支付方式
-     */
-    @RequestMapping("api/level/pay/order.htm")
-    public void paymentOrder(@RequestParam(value = "userId")Long userId,
-                            @RequestParam(value = "orderNo")Long orderNo,
-                            @RequestParam(value = "levelId")Long levelId,
-                            @RequestParam(value = "amount")Long amount,
-                            @RequestParam(value = "payMethod")Long payMethod) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> param = new HashMap<>();
-        param.put("userId",userId);
-        param.put("orderNo",orderNo);
-        param.put("amount",amount);
-        param.put("levelId",levelId);
-        param.put("payMethod",payMethod);
-        boolean flag = orderService.payOrder(param);
-        if (flag){
-            result.put(Constant.RESPONSE_CODE, Constant.SUCCEED_CODE_VALUE);
-            result.put(Constant.RESPONSE_DATA, "");
-            result.put(Constant.RESPONSE_CODE_MSG, "支付成功");
-        }else {
-            result.put(Constant.RESPONSE_CODE, Constant.FAIL_CODE_VALUE);
-            result.put(Constant.RESPONSE_DATA, "");
-            result.put(Constant.RESPONSE_CODE_MSG, "支付失败");
-        }
-        ServletUtils.writeToResponse(response, result);
-    }
 }

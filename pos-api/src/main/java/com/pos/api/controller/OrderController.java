@@ -104,18 +104,21 @@ public class OrderController extends BaseController {
      * @param userId 用户ID
      * @param orderNo 订单号
      * @param amount 支付金额
+     * @param levelId 购买的会员id(普通商品则不传)
      * @param payMethod 支付方式
      */
     @RequestMapping("api/order/pay/order.htm")
     public void paymentOrder(@RequestParam(value = "userId")Long userId,
                              @RequestParam(value = "orderNo")Long orderNo,
                              @RequestParam(value = "amount")Long amount,
+                             @RequestParam(value = "levelId",required = false)Long levelId,
                              @RequestParam(value = "payMethod")Long payMethod) {
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> param = new HashMap<>();
         param.put("userId",userId);
         param.put("orderNo",orderNo);
         param.put("amount",amount);
+        if (levelId!=null) param.put("levelId",levelId);
         param.put("payMethod",payMethod);
         boolean flag = orderService.payOrder(param);
         if (flag){

@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
-     * 支付会员费接口
+     * 支付订单接口
      * @param param
      * @return
      */
@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         paramOrder.put("userId",userId);
         paramOrder.put("orderNo",orderNo);
         Order order = orderMapper.findSelective(paramOrder);
-        long levelId = (long)param.get("levelId");
+        long levelId = param.get("levelId") == null?0:(long)param.get("levelId");
         User user = userMapper.selectByPrimaryKey(userId);
         if (order!=null && (order.getState() !=1 || order.getState() != 0)){
             throw  new BussinessException("订单不存在或状态有误");
@@ -96,37 +96,7 @@ public class OrderServiceImpl implements OrderService {
         boolean state = true;
         if (state){//支付成功
             order.setState((byte)4);
-            user.setLevelId(levelId);
-            return tradeSuc(order,user);
-        }else {
-            order.setState((byte)0);
-            return tradeFail(order);
-        }
-
-    }
-
-    /**
-     * 支付订单接口
-     * @param param
-     * @return
-     */
-    @Override
-    public boolean payPosOrder(Map<String, Object> param) {
-        long userId = (long)param.get("userId");
-        String orderNo = param.get("orderNo").toString();
-        Map<String, Object> paramOrder = new HashMap<>();
-        paramOrder.put("userId",userId);
-        paramOrder.put("orderNo",orderNo);
-        Order order = orderMapper.findSelective(paramOrder);
-        User user = userMapper.selectByPrimaryKey(userId);
-        if (order!=null && (order.getState() !=1 || order.getState() != 0)){
-            throw  new BussinessException("订单不存在或状态有误");
-        }
-        //支付
-
-        boolean state = true;
-        if (state){//支付成功
-            order.setState((byte)4);
+            if (levelId != 0)user.setLevelId(levelId);
             return tradeSuc(order,user);
         }else {
             order.setState((byte)0);

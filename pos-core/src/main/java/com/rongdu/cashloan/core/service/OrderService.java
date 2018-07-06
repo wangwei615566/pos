@@ -14,8 +14,6 @@ public interface OrderService {
 
     boolean payOrder(Map<String,Object> param);
 
-    boolean payPosOrder(Map<String,Object> param);
-
     List<Order> listSelective(Map<String,Object> param);
 
     List<OrderDetail> orderDetail(Long orderId);
